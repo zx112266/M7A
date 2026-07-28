@@ -1,0 +1,65 @@
+{
+    "StartGameNode": {
+        "action": {
+            "type": "StartApp",
+            "param": {
+                "package": "com.zlongame.cn.epicseven.bilibili"
+            }
+        },
+        "next": [
+            "WaitLoadScreen"
+        ]
+    },
+    "WaitLoadScreen": {
+        "timeout": 30000,
+        "pre_wait_freezes": 1500,
+        "next": [
+            "CheckNoticeUI"
+        ]
+    },
+    "CheckNoticeUI": {
+        "recognition": "OCR",
+        "expected": "活动专区",
+        "action": {
+            "type": "Click",
+            "target": [
+                1137,
+                77
+            ]
+        },
+        "next": [
+            "WaitGameMainLoad"
+        ]
+    },
+    "WaitGameMainLoad": {
+        "timeout": 30000,
+        "pre_wait_freezes": 1500,
+        "next": [
+            "CheckTouchStart"
+        ]
+    },
+    "CheckTouchStart": {
+        "recognition": "OCR",
+        "expected": "轻触画面开始",
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "path": [
+                    [
+                        640,
+                        360
+                    ],
+                    [
+                        640,
+                        360
+                    ],
+                    [
+                        640,
+                        360
+                    ]
+                ],
+                "delay": 500
+            }
+        }
+    }
+}

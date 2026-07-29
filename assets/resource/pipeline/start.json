@@ -1,5 +1,5 @@
 {
-    "StartGameNode": {
+    "启动游戏": {
         "action": {
             "type": "StartApp",
             "param": {
@@ -7,17 +7,17 @@
             }
         },
         "next": [
-            "WaitLoadScreen"
+            "等待游戏启动加载"
         ]
     },
-    "WaitLoadScreen": {
+    "等待游戏启动加载": {
         "timeout": 30000,
         "pre_wait_freezes": 1500,
         "next": [
-            "CheckNoticeUI"
+            "关闭活动公告弹窗"
         ]
     },
-    "CheckNoticeUI": {
+    "关闭活动公告弹窗": {
         "recognition": "OCR",
         "expected": "活动专区",
         "action": {
@@ -28,38 +28,93 @@
             ]
         },
         "next": [
-            "WaitGameMainLoad"
+            "等待主界面加载"
         ]
     },
-    "WaitGameMainLoad": {
+    "等待主界面加载": {
         "timeout": 30000,
         "pre_wait_freezes": 1500,
         "next": [
-            "CheckTouchStart"
+            "检测轻触画面开始"
         ]
     },
-    "CheckTouchStart": {
+    "检测轻触画面开始": {
         "recognition": "OCR",
         "expected": "轻触画面开始",
         "action": {
-            "type": "Swipe",
-            "param": {
-                "path": [
-                    [
-                        640,
-                        360
-                    ],
-                    [
-                        640,
-                        360
-                    ],
-                    [
-                        640,
-                        360
-                    ]
-                ],
-                "delay": 500
-            }
-        }
+            "type": "Click",
+            "target": [
+                640,
+                360
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 500,
+        "next": [
+            "等待黑屏加载"
+        ]
+    },
+    "等待黑屏加载": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 20000,
+        "pre_wait_freezes": 8000,
+        "next": [
+            "检测签到奖励弹窗",
+            "检测主界面圣域标识"
+        ]
+    },
+    "检测签到奖励弹窗": {
+        "recognition": "OCR",
+        "expected": "签到奖励",
+        "timeout": 10000,
+        "pre_wait_freezes": 500,
+        "action": {
+            "type": "Click",
+            "target": true
+        },
+        "next": [
+            "点击签到确认按钮"
+        ]
+    },
+    "点击签到确认按钮": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "timeout": 8000,
+        "pre_wait_freezes": 500,
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "固定点位三连点击"
+        ]
+    },
+    "检测主界面圣域标识": {
+        "recognition": "OCR",
+        "expected": "圣域",
+        "timeout": 3000,
+        "action": "DoNothing",
+        "next": [
+            "固定点位三连点击"
+        ]
+    },
+    "固定点位三连点击": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                430,
+                20
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "流程结束"
+        ]
+    },
+    "流程结束": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
     }
 }

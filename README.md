@@ -5,35 +5,35 @@
 
 <div align="center">
 
-# MaaPracticeBoilerplate
+# M7A 游戏自动化脚本
+基于 **MaaFramework + 豆包AI** 辅助开发的图像识别自动化学习项目
 
 </div>
 
-本仓库为 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 所提供的项目模板，开发者可基于此模板直接创建自己的 MaaXXX 项目。
+## 📖 项目介绍
+本人为多年脱离代码基础的编程小白，本项目是利用 **MaaFramework** 自动化框架，全程依托豆包AI指导学习搭建的实战练习仓库。
 
-> **MaaFramework** 是基于图像识别技术、运用 [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights) 开发经验去芜存菁、完全重写的新一代自动化黑盒测试框架。
-> 低代码的同时仍拥有高扩展性，旨在打造一款丰富、领先、且实用的开源库，助力开发者轻松编写出更好的黑盒测试程序，并推广普及。
+项目以游戏自动化作为学习载体，重点学习：
+- MaaFramework 流水线 JSON 脚本编写逻辑
+- 图像识别、区域匹配、分支判断任务流程设计
+- Git 代码版本管理、仓库提交与项目维护
+- 模拟器ADB调试、自动化任务时序控制
 
-## 即刻开始
+**项目定位：纯粹个人学习实验，不商用、不传播、不用于批量违规操作。**
 
-**请不要直接克隆本仓库！你应该通过模板创建自己的项目！**  
+## ✨ 当前已实现功能
+- ✅ 完整游戏登录自动化流程
+- ✅ 登录黑屏加载8秒强制等待，适配游戏启动时序
+- ✅ 每日签到自动化，支持「存在签到弹窗 / 无签到」双分支逻辑
+- ✅ 移除全部Swipe滑动动作，统一使用标准 `Click + repeat + repeat_delay` 写法，解决点击漂移问题
+- ✅ 流水线节点全部改为中文命名，提升调试日志可读性，方便排查问题
+- ✅ 优化目标点击坐标，适配模拟器1280×720分辨率
 
-请阅读 [如何开发](./docs/zh_cn/develop/how_to_develop.md)。
-
-向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
-
-## 生态共建
-
-MAA 正计划建设为一类项目，而非舟的单一软件。
-
-若您的项目依赖于 MaaFramework，我们欢迎您将它命名为 MaaXXX, MXA, MAX 等等。当然，这是许可而不是限制，您也可以自由选择其他与 MAA 无关的名字，完全取决于您自己的想法！
-
-同时，我们也非常欢迎您提出 PR，在 [社区项目列表](https://github.com/MaaXYZ/MaaFramework#%E7%A4%BE%E5%8C%BA%E9%A1%B9%E7%9B%AE) 中添加上您的项目！
-
-## 常见问题
-
-请阅读 [常见问题](./docs/zh_cn/develop/faq.md)。
-
+## 🛠 运行环境要求
+1. 操作系统：Windows 10 / Windows 11
+2. 模拟器：MuMu模拟器 12.0（推荐分辨率 1280 × 720）
+3. 环境依赖：正常连通ADB，配置MaaFramework运行库
+4. 项目加载工具：MaaAvalonia UI
 ## 鸣谢
 
 本项目由 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 强力驱动！

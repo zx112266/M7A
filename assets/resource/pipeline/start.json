@@ -1,5 +1,5 @@
 {
-    "启动游戏": {
+    "start_game": {
         "action": {
             "type": "StartApp",
             "param": {
@@ -7,17 +7,18 @@
             }
         },
         "next": [
-            "等待游戏启动加载"
+            "wait_game_load"
         ]
     },
-    "等待游戏启动加载": {
-        "timeout": 30000,
-        "pre_wait_freezes": 1500,
+    "wait_game_load": {
+        "timeout": 35000,
+        "pre_wait_freezes": 2000,
+        "retry_times": 2,
         "next": [
-            "关闭活动公告弹窗"
+            "close_notice_pop"
         ]
     },
-    "关闭活动公告弹窗": {
+    "close_notice_pop": {
         "recognition": "OCR",
         "expected": "活动专区",
         "action": {
@@ -27,18 +28,20 @@
                 77
             ]
         },
+        "retry_times": 2,
         "next": [
-            "等待主界面加载"
+            "wait_main_ui"
         ]
     },
-    "等待主界面加载": {
-        "timeout": 30000,
-        "pre_wait_freezes": 1500,
+    "wait_main_ui": {
+        "timeout": 35000,
+        "pre_wait_freezes": 2000,
+        "retry_times": 2,
         "next": [
-            "检测轻触画面开始"
+            "touch_start_game"
         ]
     },
-    "检测轻触画面开始": {
+    "touch_start_game": {
         "recognition": "OCR",
         "expected": "轻触画面开始",
         "action": {
@@ -50,55 +53,108 @@
         },
         "repeat": 3,
         "repeat_delay": 500,
+        "retry_times": 2,
         "next": [
-            "等待黑屏加载"
+            "wait_after_login"
         ]
     },
-    "等待黑屏加载": {
+    "wait_after_login": {
         "recognition": "DirectHit",
         "action": "DoNothing",
-        "timeout": 20000,
-        "pre_wait_freezes": 8000,
+        "timeout": 12000,
         "next": [
-            "检测签到奖励弹窗",
-            "检测主界面圣域标识"
+            "judge_before_sign"
         ]
     },
-    "检测签到奖励弹窗": {
+    "judge_before_sign": {
+        "recognition": "OCR",
+        "expected": "圣域",
+        "timeout": 2000,
+        "action": "DoNothing",
+        "next": [
+            "check_sanctuary"
+        ],
+        "failed_next": [
+            "check_sign_pop"
+        ]
+    },
+    "check_sign_pop": {
         "recognition": "OCR",
         "expected": "签到奖励",
-        "timeout": 10000,
-        "pre_wait_freezes": 500,
+        "timeout": 18000,
+        "pre_wait_freezes": 800,
         "action": {
             "type": "Click",
             "target": true
         },
+        "repeat": 1,
+        "repeat_delay": 1500,
+        "retry_times": 3,
         "next": [
-            "点击签到确认按钮"
+            "click_confirm_sign"
+        ],
+        "failed_next": [
+            "check_sanctuary"
         ]
     },
-    "点击签到确认按钮": {
+    "click_confirm_sign": {
         "recognition": "OCR",
         "expected": "确认",
-        "timeout": 8000,
+        "timeout": 10000,
         "pre_wait_freezes": 500,
         "action": {
             "type": "Click"
         },
+        "retry_times": 2,
         "next": [
-            "固定点位三连点击"
+            "judge_after_sign"
         ]
     },
-    "检测主界面圣域标识": {
+    "judge_after_sign": {
         "recognition": "OCR",
         "expected": "圣域",
-        "timeout": 3000,
+        "timeout": 2500,
         "action": "DoNothing",
         "next": [
-            "固定点位三连点击"
+            "check_sanctuary"
+        ],
+        "failed_next": [
+            "check_epic_pop"
         ]
     },
-    "固定点位三连点击": {
+    "check_epic_pop": {
+        "recognition": "OCR",
+        "expected": "史诗冲刺活动",
+        "timeout": 8000,
+        "pre_wait_freezes": 300,
+        "action": {
+            "type": "Click",
+            "target": [
+                40,
+                37
+            ]
+        },
+        "repeat": 1,
+        "repeat_delay": 500,
+        "retry_times": 2,
+        "next": [
+            "check_sanctuary"
+        ],
+        "failed_next": [
+            "check_sanctuary"
+        ]
+    },
+    "check_sanctuary": {
+        "recognition": "OCR",
+        "expected": "圣域",
+        "timeout": 4000,
+        "action": "DoNothing",
+        "retry_times": 2,
+        "next": [
+            "fixed_click_3"
+        ]
+    },
+    "fixed_click_3": {
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
@@ -110,10 +166,10 @@
         "repeat": 3,
         "repeat_delay": 1000,
         "next": [
-            "流程结束"
+            "all_end"
         ]
     },
-    "流程结束": {
+    "all_end": {
         "recognition": "DirectHit",
         "action": "DoNothing"
     }

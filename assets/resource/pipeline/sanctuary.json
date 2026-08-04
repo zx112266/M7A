@@ -1,0 +1,54 @@
+{
+    "detect_san_entrance": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/san_entrance.png",
+        "roi": [
+            0,
+            0,
+            1280,
+            720
+        ],
+        "threshold": 0.82,
+        "timeout": 6000,
+        "pre_wait_freezes": 400,
+        "action": {
+            "type": "Click",
+            "target": [
+                60,
+                170
+            ]
+        },
+        "repeat": 1,
+        "repeat_delay": 2000,
+        "next": [
+            "wait_page_render"
+        ]
+    },
+    "wait_page_render": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_wait_freezes": 2000,
+        "next": [
+            "click_fixed"
+        ]
+    },
+    "click_fixed": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1132,
+                158
+            ]
+        },
+        "repeat": 1,
+        "repeat_delay": 1000,
+        "next": [
+            "san_task_end"
+        ]
+    },
+    "san_task_end": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

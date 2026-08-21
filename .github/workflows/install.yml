@@ -1,7 +1,7 @@
-# - 设置 VERSION 为具体版本号时（如 v1.2.3），下载指定版本
 env:
-  MAAFW_VERSION: "v1.1.7"
-  MFAA_VERSION: "v1.1.7"
+  MAAFW_VERSION: ""
+  MFAA_VERSION: ""
+
 on:
   push:
     tags:
@@ -65,10 +65,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            name: linux-x86_64
-          - os: ubuntu-latest
-            name: linux-aarch64
-          - os: ubuntu-latest
             name: android-x86_64
           - os: ubuntu-latest
             name: android-aarch64
@@ -101,14 +97,6 @@ jobs:
           if [[ "$RUNNER_OS" == "Windows" ]]; then
             echo "winget install MaaWpf.MaaCLI --accept-package-agreements --accept-source-agreements" >> $GITHUB_ENV
             winget install MaaWpf.MaaCLI --accept-package-agreements --accept-source-agreements
-          elif [[ "$RUNNER_OS" == "Linux" ]]; then
-            if [ -n "${{ env.MAAFW_VERSION }}" ]; then
-              curl -sL https://github.com/MaaXYZ/MaaFramework/releases/download/${{ env.MAAFW_VERSION }}/MaaCLI-${{ env.MAAFW_VERSION }}-linux-x86_64.tar.gz | tar -xz
-              mv MaaCLI-*/bin/maa /usr/local/bin/
-            else
-              pip install maa-cli
-              maa self update
-            fi
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
             if [ -n "${{ env.MAAFW_VERSION }}" ]; then
               curl -sL https://github.com/MaaXYZ/MaaFramework/releases/download/${{ env.MAAFW_VERSION }}/MaaCLI-${{ env.MAAFW_VERSION }}-macos-x86_64.tar.gz | tar -xz
@@ -118,6 +106,7 @@ jobs:
               maa self update
             fi
           fi
+
       - name: MaaCLI Deps
         if: ${{ !matrix.android }}
         shell: bash
@@ -147,7 +136,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaTemplateAssets
           tag: ${{ env.MAAFW_VERSION }}
-          fileName: "MaaTemplateAssets-${{ env.MAAFW_VERSION }}-${{ matrix.name }}*"
+          fileName: "MaaTemplateAssets-${{ env.MAAFW_VERSION }}-${{ matrix.name }}*`
           out-file-path: template
           unzip: true
 
@@ -184,31 +173,6 @@ jobs:
           cd debug
           maa build
           cd ..
-
-      - name: Compress the Linux Distribution
-        if: matrix.name == 'linux-x86_64' || matrix.name == 'linux-aarch64'
-        shell: bash
-        run: |
-          cd ./debug
-          mkdir release
-          mv interface.json release/
-          mv assets release/ -r
-          mv deps release/
-          mv install release/
-          mv source release/
-
-          cd release
-
-          python3 -c "
-          import json
-          f = open('assets/pipeline/interface.json', 'r', encoding='utf-8')
-          d = json.load(f)
-          d['resource'][0]['path'] = ['./assets/resource', '../assets/resource']
-          json.dump(d, open('assets/pipeline/interface.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ':'))
-          "
-
-          cd ..
-          zip -r ../maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.zip ./debug/release
 
       - name: Compress the Android Distribution
         if: matrix.name == 'android-x86_64' || matrix.name == 'android-aarch64'

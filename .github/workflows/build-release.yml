@@ -19,16 +19,20 @@ jobs:
           filterAssets: "MFAAvalonia-.*-win-x64.zip"
           out-file-path: ./download
 
-      - name: 打印下载结果
+      - name: 调试：列出下载目录全部内容
+        run: Get-ChildItem ./download -Recurse
+
+      - name: 定位解压出来的程序目录
+        id: find_dir
         run: |
-          ls ./download
-          echo "downloaded_files=${{ steps.download_step.outputs.downloaded_files }}"
+          $appDir = Get-ChildItem ./download -Directory | Select-Object -First 1 -ExpandProperty FullName
+          echo "app_dir=$appDir" >> $env:GITHUB_OUTPUT
 
-      - name: 复制本仓库脚本资源
-        run: Copy-Item ./assets ./download/MFAAvalonia/*/ -Recurse -Force
+      - name: 复制M7A的assets脚本合并进程序目录
+        run: Copy-Item -Path ./assets/* -Destination "${{ steps.find_dir.outputs.app_dir }}/assets/" -Recurse -Force
 
-      - name: 打包输出
+      - name: 打包输出最终制品
         uses: actions/upload-artifact@v4
         with:
           name: M7A-release-win-x64
-          path: ./download/**
+          path: ${{ steps.find_dir.outputs.app_dir }}/**

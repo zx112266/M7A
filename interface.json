@@ -1,48 +1,40 @@
 {
-    "name": "M7A 第七史诗脚本",
+    "interface_version": 2,
+    "name": "M7A",
+    "description": "第七史诗自动化脚本",
     "version": "1.1.4",
     "resource": [
         {
             "name": "M7A",
-            "path": "{PROJECT_DIR}/assets"
+            "path": [
+                "./assets"
+            ]
         }
     ],
-    "tasks": [
+    "task": [
         {
-            "name": "start",
-            "label": "游戏启动登录",
-            "pipeline": "start.json",
-            "description": "启动游戏、关闭公告、登录到大厅"
+            "name": "游戏启动登录",
+            "entry": "start_game"
         },
         {
-            "name": "sign_reward",
-            "label": "签到奖励",
-            "pipeline": "sign_reward.json",
-            "description": "领取每日签到奖励"
+            "name": "签到奖励",
+            "entry": "sign_check_reward"
         },
         {
-            "name": "sanctuary",
-            "label": "圣域家园领取",
-            "pipeline": "sanctuary.json",
-            "description": "企鹅巢穴、精灵之泉、魔罗戈拉种植地奖励领取"
+            "name": "圣域家园领取",
+            "entry": "detect_san_entrance"
         },
         {
-            "name": "pet_house",
-            "label": "宠物小屋",
-            "pipeline": "pet_house.json",
-            "description": "宠物相关操作"
+            "name": "宠物小屋",
+            "entry": "detect_pet_house"
         },
         {
-            "name": "guild",
-            "label": "骑士团公会任务",
-            "pipeline": "guild.json",
-            "description": "公会奖励、世界首领战出战"
+            "name": "骑士团公会任务",
+            "entry": "guild_detect"
         },
         {
-            "name": "shop",
-            "label": "商店操作",
-            "pipeline": "shop.json",
-            "description": "商店购买道具"
+            "name": "商店操作",
+            "entry": "shop_detect"
         }
     ]
 }

@@ -26,10 +26,10 @@ jobs:
       - id: uploading
         uses: MirrorChyan/release-note-action@v1
         with:
-          mirrorchyan_rid: MaaXXX
+          mirrorchyan_rid: M7A
           version_name: ${{ inputs.tag }}
 
           owner: MaaXYZ
-          repo: MaaXXX
+          repo: M7A
           github_token: ${{ secrets.GITHUB_TOKEN }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}

@@ -1,0 +1,351 @@
+{
+    "shop_detect": {
+        "recognition": "OCR",
+        "expected": "商店",
+        "roi": [
+            1187,
+            505,
+            55,
+            29
+        ],
+        "timeout": 5000,
+        "next": [
+            "shop_click_enter"
+        ],
+        "failed_next": [
+            "shop_end"
+        ]
+    },
+    "shop_click_enter": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1187,
+                505
+            ]
+        },
+        "next": [
+            "shop_wait_load"
+        ]
+    },
+    "shop_wait_load": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_wait_freezes": 2000,
+        "wait_freezes_param": {
+            "timeout": 5000
+        },
+        "timeout": 8000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_check_shop_dot"
+        ],
+        "next": [
+            "shop_check_gift_dot"
+        ]
+    },
+    "shop_check_gift_dot": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/dot_forest.png",
+        "roi": [
+            15,
+            193,
+            22,
+            21
+        ],
+        "threshold": 0.82,
+        "next": [
+            "shop_click_gift"
+        ]
+    },
+    "shop_click_gift": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                89,
+                223
+            ]
+        },
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_check_free"
+        ],
+        "next": [
+            "shop_check_benefit"
+        ]
+    },
+    "shop_check_benefit": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/dot_forest.png",
+        "roi": [
+            1028,
+            74,
+            20,
+            20
+        ],
+        "threshold": 0.82,
+        "next": [
+            "shop_click_benefit"
+        ]
+    },
+    "shop_click_benefit": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1103,
+                107
+            ]
+        },
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_check_free"
+        ]
+    },
+    "shop_check_free": {
+        "recognition": "OCR",
+        "expected": "免费",
+        "roi": [
+            397,
+            380,
+            43,
+            23
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_click_free"
+        ]
+    },
+    "shop_click_free": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                417,
+                391
+            ]
+        },
+        "next": [
+            "shop_check_purchase"
+        ]
+    },
+    "shop_check_purchase": {
+        "recognition": "OCR",
+        "expected": "购买",
+        "roi": [
+            780,
+            552,
+            65,
+            36
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_click_purchase"
+        ]
+    },
+    "shop_click_purchase": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                756,
+                564
+            ]
+        },
+        "next": [
+            "shop_check_reward"
+        ]
+    },
+    "shop_check_reward": {
+        "recognition": "OCR",
+        "expected": "获得奖励",
+        "roi": [
+            569,
+            144,
+            146,
+            47
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_close_reward"
+        ]
+    },
+    "shop_close_reward": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                339,
+                47
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "shop_end"
+        ]
+    },
+    "shop_check_shop_dot": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/dot_forest.png",
+        "roi": [
+            9,
+            346,
+            34,
+            32
+        ],
+        "threshold": 0.82,
+        "timeout": 3000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_back"
+        ],
+        "next": [
+            "shop_click_shop_dot"
+        ]
+    },
+    "shop_click_shop_dot": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                68,
+                381
+            ]
+        },
+        "next": [
+            "shop_check_shop_free"
+        ]
+    },
+    "shop_check_shop_free": {
+        "recognition": "OCR",
+        "expected": "免费",
+        "roi": [
+            376,
+            343,
+            50,
+            28
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_click_shop_free"
+        ]
+    },
+    "shop_click_shop_free": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                401,
+                354
+            ]
+        },
+        "next": [
+            "shop_check_shop_purchase"
+        ]
+    },
+    "shop_check_shop_purchase": {
+        "recognition": "OCR",
+        "expected": "购买",
+        "roi": [
+            788,
+            491,
+            56,
+            37
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_click_shop_purchase"
+        ]
+    },
+    "shop_click_shop_purchase": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                759,
+                509
+            ]
+        },
+        "next": [
+            "shop_check_shop_success"
+        ]
+    },
+    "shop_check_shop_success": {
+        "recognition": "OCR",
+        "expected": "购买成功",
+        "roi": [
+            592,
+            505,
+            95,
+            45
+        ],
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "shop_end"
+        ],
+        "next": [
+            "shop_close_shop_success"
+        ]
+    },
+    "shop_close_shop_success": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                641,
+                660
+            ]
+        },
+        "repeat": 2,
+        "repeat_delay": 1000,
+        "next": [
+            "shop_back"
+        ]
+    },
+    "shop_back": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                36,
+                33
+            ]
+        },
+        "next": [
+            "shop_end"
+        ]
+    },
+    "shop_end": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

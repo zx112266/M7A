@@ -13,14 +13,22 @@
     "wait_game_load": {
         "timeout": 35000,
         "pre_wait_freezes": 2000,
-        "retry_times": 2,
+        "rate_limit": 1000,
+        "on_error": [
+            "wait_main_ui"
+        ],
         "next": [
             "close_notice_pop"
         ]
     },
     "close_notice_pop": {
         "recognition": "OCR",
-        "expected": "活动专区",
+        "expected": "官方公告",
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "wait_main_ui"
+        ],
         "action": {
             "type": "Click",
             "target": [
@@ -28,7 +36,50 @@
                 77
             ]
         },
-        "retry_times": 2,
+        "next": [
+            "check_ad_pop"
+        ]
+    },
+    "check_ad_pop": {
+        "recognition": "OCR",
+        "expected": "不再展示",
+        "roi": [
+            359,
+            546,
+            153,
+            34
+        ],
+        "timeout": 3000,
+        "rate_limit": 1000,
+        "on_error": [
+            "wait_main_ui"
+        ],
+        "next": [
+            "click_checkbox"
+        ]
+    },
+    "click_checkbox": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                335,
+                560
+            ]
+        },
+        "next": [
+            "close_ad"
+        ]
+    },
+    "close_ad": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1003,
+                203
+            ]
+        },
         "next": [
             "wait_main_ui"
         ]
@@ -36,7 +87,10 @@
     "wait_main_ui": {
         "timeout": 35000,
         "pre_wait_freezes": 2000,
-        "retry_times": 2,
+        "rate_limit": 1000,
+        "on_error": [
+            "all_end"
+        ],
         "next": [
             "touch_start_game"
         ]
@@ -53,7 +107,6 @@
         },
         "repeat": 3,
         "repeat_delay": 500,
-        "retry_times": 2,
         "next": [
             "wait_after_login"
         ]
@@ -61,110 +114,10 @@
     "wait_after_login": {
         "recognition": "DirectHit",
         "action": "DoNothing",
-        "timeout": 12000,
-        "next": [
-            "judge_before_sign"
-        ]
-    },
-    "judge_before_sign": {
-        "recognition": "OCR",
-        "expected": "圣域",
-        "timeout": 2000,
-        "action": "DoNothing",
-        "next": [
-            "check_sanctuary"
-        ],
-        "failed_next": [
-            "check_sign_pop"
-        ]
-    },
-    "check_sign_pop": {
-        "recognition": "OCR",
-        "expected": "签到奖励",
-        "timeout": 18000,
-        "pre_wait_freezes": 800,
-        "action": {
-            "type": "Click",
-            "target": true
+        "pre_wait_freezes": 7000,
+        "wait_freezes_param": {
+            "timeout": 15000
         },
-        "repeat": 1,
-        "repeat_delay": 1500,
-        "retry_times": 3,
-        "next": [
-            "click_confirm_sign"
-        ],
-        "failed_next": [
-            "check_sanctuary"
-        ]
-    },
-    "click_confirm_sign": {
-        "recognition": "OCR",
-        "expected": "确认",
-        "timeout": 10000,
-        "pre_wait_freezes": 500,
-        "action": {
-            "type": "Click"
-        },
-        "retry_times": 2,
-        "next": [
-            "judge_after_sign"
-        ]
-    },
-    "judge_after_sign": {
-        "recognition": "OCR",
-        "expected": "圣域",
-        "timeout": 2500,
-        "action": "DoNothing",
-        "next": [
-            "check_sanctuary"
-        ],
-        "failed_next": [
-            "check_epic_pop"
-        ]
-    },
-    "check_epic_pop": {
-        "recognition": "OCR",
-        "expected": "史诗冲刺活动",
-        "timeout": 8000,
-        "pre_wait_freezes": 300,
-        "action": {
-            "type": "Click",
-            "target": [
-                40,
-                37
-            ]
-        },
-        "repeat": 1,
-        "repeat_delay": 500,
-        "retry_times": 2,
-        "next": [
-            "check_sanctuary"
-        ],
-        "failed_next": [
-            "check_sanctuary"
-        ]
-    },
-    "check_sanctuary": {
-        "recognition": "OCR",
-        "expected": "圣域",
-        "timeout": 4000,
-        "action": "DoNothing",
-        "retry_times": 2,
-        "next": [
-            "fixed_click_3"
-        ]
-    },
-    "fixed_click_3": {
-        "recognition": "DirectHit",
-        "action": {
-            "type": "Click",
-            "target": [
-                430,
-                20
-            ]
-        },
-        "repeat": 3,
-        "repeat_delay": 1000,
         "next": [
             "all_end"
         ]

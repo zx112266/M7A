@@ -1,0 +1,168 @@
+{
+    "detect_pet_house": {
+        "recognition": "OCR",
+        "expected": "宠物小屋",
+        "roi": [
+            773,
+            620,
+            74,
+            72
+        ],
+        "timeout": 5000,
+        "retry_times": 1,
+        "next": [
+            "click_pet_house"
+        ],
+        "failed_next": [
+            "pet_task_end"
+        ]
+    },
+    "click_pet_house": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                804,
+                650
+            ]
+        },
+        "next": [
+            "wait_pet_load"
+        ]
+    },
+    "wait_pet_load": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "pet_back"
+        ],
+        "next": [
+            "dot_check"
+        ]
+    },
+    "dot_check": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/dot_forest.png",
+        "roi": [
+            772,
+            625,
+            40,
+            35
+        ],
+        "threshold": 0.82,
+        "next": [
+            "click_dot"
+        ]
+    },
+    "click_dot": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                858,
+                659
+            ]
+        },
+        "timeout": 3000,
+        "rate_limit": 1000,
+        "on_error": [
+            "pet_back"
+        ],
+        "next": [
+            "judge_free"
+        ]
+    },
+    "judge_free": {
+        "recognition": "OCR",
+        "expected": "免费",
+        "roi": [
+            420,
+            597,
+            52,
+            30
+        ],
+        "next": [
+            "click_free"
+        ]
+    },
+    "click_free": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                520,
+                609
+            ]
+        },
+        "timeout": 3000,
+        "rate_limit": 1000,
+        "on_error": [
+            "pet_back"
+        ],
+        "next": [
+            "judge_result"
+        ]
+    },
+    "judge_result": {
+        "recognition": "OCR",
+        "expected": "领养结果",
+        "roi": [
+            561,
+            67,
+            152,
+            70
+        ],
+        "next": [
+            "click_blank"
+        ]
+    },
+    "click_blank": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                57,
+                88
+            ]
+        },
+        "repeat": 2,
+        "repeat_delay": 500,
+        "next": [
+            "pet_back"
+        ]
+    },
+    "no_dot_click": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                317,
+                25
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "pet_back"
+        ]
+    },
+    "pet_back": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                37,
+                32
+            ]
+        },
+        "next": [
+            "pet_task_end"
+        ]
+    },
+    "pet_task_end": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

@@ -1,0 +1,230 @@
+{
+    "sign_check_reward": {
+        "recognition": "OCR",
+        "expected": "签到奖励",
+        "pre_wait_freezes": 800,
+        "timeout": 8000,
+        "rate_limit": 1000,
+        "on_error": [
+            "sign_reward_fail"
+        ],
+        "action": {
+            "type": "Click",
+            "target": true
+        },
+        "repeat": 1,
+        "repeat_delay": 1500,
+        "next": [
+            "sign_click_confirm"
+        ]
+    },
+    "sign_reward_fail": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                412,
+                50
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_check_friend"
+        ]
+    },
+    "sign_click_confirm": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "pre_wait_freezes": 500,
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "sign_confirm_fail"
+        ],
+        "next": [
+            "sign_confirm_success"
+        ]
+    },
+    "sign_confirm_success": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "sign_check_friend"
+        ]
+    },
+    "sign_confirm_fail": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                412,
+                50
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_check_friend"
+        ]
+    },
+    "sign_check_friend": {
+        "recognition": "OCR",
+        "expected": "友情点数",
+        "roi": [
+            484,
+            92,
+            312,
+            52
+        ],
+        "timeout": 3000,
+        "rate_limit": 1000,
+        "on_error": [
+            "sign_friend_fail"
+        ],
+        "next": [
+            "sign_click_friend"
+        ]
+    },
+    "sign_click_friend": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                636,
+                603
+            ]
+        },
+        "next": [
+            "sign_friend_success"
+        ]
+    },
+    "sign_friend_success": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "sign_check_epic"
+        ]
+    },
+    "sign_friend_fail": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                412,
+                50
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_check_epic"
+        ]
+    },
+    "sign_check_epic": {
+        "recognition": "OCR",
+        "expected": "史诗冲刺活动",
+        "pre_wait_freezes": 300,
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "sign_epic_fail"
+        ],
+        "next": [
+            "sign_click_close_epic"
+        ]
+    },
+    "sign_click_close_epic": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                34,
+                34
+            ]
+        },
+        "repeat": 1,
+        "repeat_delay": 500,
+        "next": [
+            "sign_epic_success"
+        ]
+    },
+    "sign_epic_success": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "sign_check_sanctuary"
+        ]
+    },
+    "sign_epic_fail": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                412,
+                50
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_check_sanctuary"
+        ]
+    },
+    "sign_check_sanctuary": {
+        "recognition": "TemplateMatch",
+        "template": "sanctuary_main/san_entrance.png",
+        "roi": [
+            22,
+            131,
+            61,
+            77
+        ],
+        "threshold": 0.82,
+        "timeout": 5000,
+        "rate_limit": 1000,
+        "on_error": [
+            "sign_sanctuary_fail"
+        ],
+        "next": [
+            "sign_sanctuary_success"
+        ]
+    },
+    "sign_sanctuary_success": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                396,
+                29
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_end"
+        ]
+    },
+    "sign_sanctuary_fail": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                391,
+                696
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "sign_end"
+        ]
+    },
+    "sign_end": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

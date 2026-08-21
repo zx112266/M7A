@@ -11,6 +11,9 @@
         "threshold": 0.82,
         "timeout": 6000,
         "pre_wait_freezes": 400,
+        "wait_freezes_param": {
+            "timeout": 6000
+        },
         "action": {
             "type": "Click",
             "target": [
@@ -27,22 +30,169 @@
     "wait_page_render": {
         "recognition": "DirectHit",
         "action": "DoNothing",
-        "pre_wait_freezes": 2000,
+        "pre_wait_freezes": 200,
+        "wait_freezes_param": {
+            "timeout": 5000
+        },
         "next": [
-            "click_fixed"
+            "judge_forest"
         ]
     },
-    "click_fixed": {
+    "judge_forest": {
+        "recognition": "OCR",
+        "expected": "精灵之森",
+        "roi": [
+            1100,
+            150,
+            150,
+            60
+        ],
+        "timeout": 3000,
+        "retry_times": 1,
+        "next": [
+            "click_forest"
+        ],
+        "failed_next": [
+            "san_task_end"
+        ]
+    },
+    "click_forest": {
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
             "target": [
-                1132,
-                158
+                1191,
+                172
             ]
         },
         "repeat": 1,
+        "repeat_delay": 2000,
+        "next": [
+            "click_penguin"
+        ]
+    },
+    "click_penguin": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1079,
+                249
+            ]
+        },
+        "repeat": 3,
         "repeat_delay": 1000,
+        "next": [
+            "click_spring"
+        ]
+    },
+    "click_spring": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1060,
+                362
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "click_plant"
+        ]
+    },
+    "click_plant": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1036,
+                481
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "click_care"
+        ]
+    },
+    "click_care": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1126,
+                554
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "click_plant_area"
+        ]
+    },
+    "click_plant_area": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                1036,
+                481
+            ]
+        },
+        "repeat": 3,
+        "repeat_delay": 1000,
+        "next": [
+            "click_back"
+        ]
+    },
+    "click_back": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                37,
+                32
+            ]
+        },
+        "next": [
+            "wait_after_back"
+        ]
+    },
+    "wait_after_back": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 2000,
+        "next": [
+            "judge_back"
+        ]
+    },
+    "judge_back": {
+        "recognition": "OCR",
+        "expected": "圣域",
+        "roi": [
+            62,
+            14,
+            62,
+            39
+        ],
+        "timeout": 3000,
+        "next": [
+            "click_back_again"
+        ],
+        "failed_next": [
+            "san_task_end"
+        ]
+    },
+    "click_back_again": {
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "target": [
+                37,
+                32
+            ]
+        },
         "next": [
             "san_task_end"
         ]

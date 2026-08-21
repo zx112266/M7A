@@ -2,6 +2,8 @@ name: M7A 自动打包MFAAvalonia
 on:
   push:
   workflow_dispatch:
+  tags:
+    - 'v*'
 
 jobs:
   build_package:
@@ -12,41 +14,46 @@ jobs:
 
       - name: 下载MFAAvalonia最新Windows发行包
         run: |
-          # 创建下载目录
           New-Item -ItemType Directory -Path ./download -Force
-          # GitHub官方命令：下载最新release中匹配win-x64的zip包
           gh release download --repo MaaXYZ/MFAAvalonia --pattern "*win-x64.zip" --dir ./download
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 调试：查看下载到的文件
-        run: Get-ChildItem ./download
-
       - name: 解压压缩包
         run: |
-          # 自动找到下载的zip文件，再解压，避免通配符踩坑
           $zipFile = Get-ChildItem ./download/*.zip | Select-Object -First 1
           Expand-Archive -Path $zipFile.FullName -DestinationPath ./app -Force
 
       - name: 定位程序根目录
         id: find_dir
         run: |
-          # 自动获取解压后的程序文件夹完整路径
           $appDir = Get-ChildItem ./app -Directory | Select-Object -First 1 -ExpandProperty FullName
           echo "app_dir=$appDir" >> $env:GITHUB_OUTPUT
 
       - name: 复制M7A的assets脚本到程序目录
         run: |
           $targetPath = "${{ steps.find_dir.outputs.app_dir }}/assets"
-          # 确保目标assets文件夹存在，避免复制报错
           if (-not (Test-Path $targetPath)) {
               New-Item -ItemType Directory -Path $targetPath -Force
           }
-          # 递归复制所有脚本资源，强制覆盖
           Copy-Item -Path ./assets/* -Destination $targetPath -Recurse -Force
 
-      - name: 打包输出最终制品
+      - name: 打包为单个zip文件
+        run: |
+          New-Item -ItemType Directory -Path ./dist -Force
+          Compress-Archive -Path "${{ steps.find_dir.outputs.app_dir }}/*" -DestinationPath ./dist/M7A-release-win-x64.zip -Force
+
+      - name: 上传构建产物（测试用）
         uses: actions/upload-artifact@v4
         with:
           name: M7A-release-win-x64
-          path: ${{ steps.find_dir.outputs.app_dir }}/**
+          path: ./dist/M7A-release-win-x64.zip
+
+      - name: 发布到仓库 Releases
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./dist/M7A-release-win-x64.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

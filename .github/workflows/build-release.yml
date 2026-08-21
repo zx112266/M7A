@@ -7,26 +7,26 @@ on:
 
 jobs:
   build_package:
-    runs-on: windows‑latest
+    runs-on: windows-latest
     steps:
       - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
 
       - name: 下载最新 Windows‑x64 发行包
-        uses: robinraju/release‑downloader@v1
+        uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MFAAvalonia
           latest: true
-          filterAssets: "*win‑x64.zip"
+          filterAssets: "*win-x64.zip"
 
       - name: 解压MFAAvalonia压缩包
-        run: Expand‑Archive *.zip ‑DestinationPath ./mfaa_temp
+        run: Expand-Archive *.zip -DestinationPath ./mfaa_temp
 
       - name: 复制本仓库脚本资源到程序目录
-        run: Copy‑Item ./assets ./mfaa_temp/ ‑Recurse ‑Force
+        run: Copy-Item ./assets ./mfaa_temp/ -Recurse -Force
 
       - name: 打包输出最终zip
-        uses: actions/upload‑artifact@v4
+        uses: actions/upload-artifact@v4
         with:
-          name: M7A‑release‑win‑x64
+          name: M7A-release-win-x64
           path: ./mfaa_temp/**

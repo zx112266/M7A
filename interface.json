@@ -1,0 +1,48 @@
+{
+    "name": "M7A 第七史诗脚本",
+    "version": "1.0.0",
+    "resource": [
+        {
+            "name": "M7A",
+            "path": "{PROJECT_DIR}/resource"
+        }
+    ],
+    "tasks": [
+        {
+            "name": "start",
+            "label": "游戏启动登录",
+            "pipeline": "start.json",
+            "description": "启动游戏、关闭公告、登录到大厅"
+        },
+        {
+            "name": "sanctuary",
+            "label": "圣域家园领取",
+            "pipeline": "sanctuary.json",
+            "description": "企鹅巢穴、精灵之泉、魔罗戈拉种植地奖励领取"
+        },
+        {
+            "name": "guild",
+            "label": "骑士团公会任务",
+            "pipeline": "guild.json",
+            "description": "公会奖励、世界首领战出战"
+        },
+        {
+            "name": "pet_house",
+            "label": "宠物小屋",
+            "pipeline": "pet_house.json",
+            "description": "宠物相关操作"
+        },
+        {
+            "name": "shop",
+            "label": "商店操作",
+            "pipeline": "shop.json",
+            "description": "商店购买道具"
+        },
+        {
+            "name": "sign_reward",
+            "label": "签到奖励",
+            "pipeline": "sign_reward.json",
+            "description": "领取每日签到奖励"
+        }
+    ]
+}

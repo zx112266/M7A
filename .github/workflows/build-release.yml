@@ -1,4 +1,7 @@
 name: M7A 自动打包MFAAvalonia
+permissions:
+  contents: write
+
 on:
   push:
   workflow_dispatch:
@@ -9,6 +12,17 @@ jobs:
     steps:
       - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
+
+      - name: 提取版本号
+        id: get_version
+        run: |
+          if ("${{ github.ref }}" -like "refs/tags/*") {
+            $version = "${{ github.ref }}".Replace("refs/tags/", "")
+          } else {
+            $version = "latest"
+          }
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "当前版本号: $version"
 
       - name: 下载MFAAvalonia最新Windows发行包
         run: |
@@ -36,22 +50,24 @@ jobs:
           }
           Copy-Item -Path ./assets/* -Destination $targetPath -Recurse -Force
 
-      - name: 打包为单个zip文件
+      - name: 打包为带版本号的zip文件
         run: |
           New-Item -ItemType Directory -Path ./dist -Force
-          Compress-Archive -Path "${{ steps.find_dir.outputs.app_dir }}/*" -DestinationPath ./dist/M7A-release-win-x64.zip -Force
+          $fileName = "M7A-${{ steps.get_version.outputs.version }}-win-x64.zip"
+          Compress-Archive -Path "${{ steps.find_dir.outputs.app_dir }}/*" -DestinationPath "./dist/$fileName" -Force
+          echo "生成文件: $fileName"
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v4
         with:
           name: M7A-release-win-x64
-          path: ./dist/M7A-release-win-x64.zip
+          path: ./dist/*.zip
 
       - name: 发布到仓库 Releases
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: ./dist/M7A-release-win-x64.zip
+          files: ./dist/*.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

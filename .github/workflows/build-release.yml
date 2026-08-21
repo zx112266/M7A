@@ -1,49 +1,32 @@
 name: M7A 自动打包MFAAvalonia
 on:
   push:
-    tags:
-      - 'v*'       # 打版本标签 v1.0.0 才触发打包
-  workflow_dispatch: # 【重点】网页可以手动点按钮触发打包，测试用
-
-env:
-  MFAA_REPO: MaaXYZ/MFAAvalonia
-  MFAA_FILE: MFAAvalonia-win-x64.zip
-  OUTPUT_ZIP: M7A-release-win-x64.zip
+  tags:
+    - 'v*'
+  workflow_dispatch:
 
 jobs:
   build_package:
-    runs-on: windows-latest
+    runs-on: windows‑latest
     steps:
-      - name: ①检出本仓库M7A代码
+      - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
 
-      - name: ②下载官方最新MFAAvalonia‑win‑x64.zip
-        uses: robinraju/release-downloader@v1
+      - name: 下载最新 Windows‑x64 发行包
+        uses: robinraju/release‑downloader@v1
         with:
-          repository: ${{ env.MFAA_REPO }}
+          repository: MaaXYZ/MFAAvalonia
           latest: true
-          fileName: ${{ env.MFAA_FILE }}
-          targetDir: ./tmp
+          filterAssets: "*win‑x64.zip"
 
-      - name: ③解压MFAAvalonia官方包
-        run: Expand-Archive ./tmp/${{env.MFAA_FILE}} -DestinationPath ./mfaa_temp
+      - name: 解压MFAAvalonia压缩包
+        run: Expand‑Archive *.zip ‑DestinationPath ./mfaa_temp
 
-      - name: ④复制M7A资源到MFAA程序包
-        run: |
-          # 复制 interface.json 到程序根目录
-          cp ./interface.json ./mfaa_temp/
-          # 复制你的全部流水线+图片素材到mfaa_temp/resource
-          cp -r ./assets/resource ./mfaa_temp/
+      - name: 复制本仓库脚本资源到程序目录
+        run: Copy‑Item ./assets ./mfaa_temp/ ‑Recurse ‑Force
 
-      - name: ⑤重新压缩完整发布包
-        run: Compress-Archive -Path ./mfaa_temp/* -DestinationPath ./${{env.OUTPUT_ZIP}}
-
-      - name: ⑥创建Release，上传打包好的zip
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: 打包输出最终zip
+        uses: actions/upload‑artifact@v4
         with:
-          files: |
-            ${{ env.OUTPUT_ZIP }}
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: M7A‑release‑win‑x64
+          path: ./mfaa_temp/**

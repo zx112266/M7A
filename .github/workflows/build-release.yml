@@ -10,35 +10,40 @@ jobs:
       - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
 
-      - name: 下载MFAAvalonia最新win‑x64包
-        id: download_step
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: MaaXYZ/MFAAvalonia
-          latest: true
-          filterAssets: "MFAAvalonia-.*-win-x64.zip"
-          out-file-path: ./download
+      - name: 下载MFAAvalonia最新Windows发行包
+        run: |
+          # 创建下载目录
+          New-Item -ItemType Directory -Path ./download -Force
+          # GitHub官方命令：下载最新release中匹配win-x64的zip包
+          gh release download --repo MaaXYZ/MFAAvalonia --pattern "*win-x64.zip" --dir ./download
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 解压 zip 压缩包
-        run: Expand-Archive -Path ./download/*.zip -DestinationPath ./app -Force
+      - name: 调试：查看下载到的文件
+        run: Get-ChildItem ./download
 
-      - name: 调试：查看解压后的目录结构
-        run: Get-ChildItem ./app -Recurse
+      - name: 解压压缩包
+        run: |
+          # 自动找到下载的zip文件，再解压，避免通配符踩坑
+          $zipFile = Get-ChildItem ./download/*.zip | Select-Object -First 1
+          Expand-Archive -Path $zipFile.FullName -DestinationPath ./app -Force
 
       - name: 定位程序根目录
         id: find_dir
         run: |
+          # 自动获取解压后的程序文件夹完整路径
           $appDir = Get-ChildItem ./app -Directory | Select-Object -First 1 -ExpandProperty FullName
           echo "app_dir=$appDir" >> $env:GITHUB_OUTPUT
 
-      - name: 复制M7A的assets脚本合并进程序目录
+      - name: 复制M7A的assets脚本到程序目录
         run: |
-          $target = "${{ steps.find_dir.outputs.app_dir }}/assets"
-          # 确保目标文件夹存在
-          if (-not (Test-Path $target)) {
-              New-Item -ItemType Directory -Path $target -Force
+          $targetPath = "${{ steps.find_dir.outputs.app_dir }}/assets"
+          # 确保目标assets文件夹存在，避免复制报错
+          if (-not (Test-Path $targetPath)) {
+              New-Item -ItemType Directory -Path $targetPath -Force
           }
-          Copy-Item -Path ./assets/* -Destination $target -Recurse -Force
+          # 递归复制所有脚本资源，强制覆盖
+          Copy-Item -Path ./assets/* -Destination $targetPath -Recurse -Force
 
       - name: 打包输出最终制品
         uses: actions/upload-artifact@v4

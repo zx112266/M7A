@@ -1,6 +1,6 @@
 name: M7A 自动打包MFAAvalonia
 on:
-  push:
+  push: {}
   tags:
     - 'v*'
   workflow_dispatch:

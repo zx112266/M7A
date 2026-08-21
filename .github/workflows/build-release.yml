@@ -16,6 +16,7 @@ jobs:
           repository: MaaXYZ/MFAAvalonia
           latest: true
           filterAssets: "*win-x64.zip"
+          download-path: ./
 
       - name: 解压MFAAvalonia压缩包
         run: Expand-Archive *.zip -DestinationPath ./mfaa_temp

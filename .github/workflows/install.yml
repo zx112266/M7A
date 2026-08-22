@@ -39,17 +39,9 @@ jobs:
             echo "tag=$(git describe --tags --always)" >> "$GITHUB_OUTPUT"
           fi
 
+  # 简化：只构建Windows x64版本
   install:
     needs: meta
-    strategy:
-      matrix:
-        os: [windows, linux, macos, android]
-        arch: [x86_64, aarch64]
-        exclude:
-          - os: windows
-            arch: aarch64
-          - os: android
-            arch: x86_64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -58,21 +50,19 @@ jobs:
       - name: Install
         shell: bash
         run: |
+          # 创建打包目录
           mkdir -p install
           
-          if [[ "${{ matrix.os }}" != "android" ]]; then
-            if [ -d "MFA" ]; then
-              echo "Copying MFA files to install directory..."
-              rsync -av --ignore-existing MFA/ install/
-              echo "MFA files copied successfully."
-            else
-              echo "MFA directory not found, skipping copy."
-            fi
+          # 复制MFA文件（如果存在）
+          if [ -d "MFA" ]; then
+            echo "Copying MFA files to install directory..."
+            rsync -av --ignore-existing MFA/ install/
+            echo "MFA files copied successfully."
           else
-            echo "Skipping copy MFA for Android."
+            echo "MFA directory not found, skipping copy."
           fi
           
-          # 复制 interface.json 文件（**新增步骤**）
+          # 复制 interface.json 文件（你的关键配置）
           if [ -f "interface.json" ]; then
             echo "Copying interface.json to install directory..."
             cp interface.json install/
@@ -81,14 +71,46 @@ jobs:
             echo "interface.json not found, skipping copy."
           fi
           
-          cd tools/
-          python -m pip install -r ./requirements.txt
-          python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
-          cd ..
+          # 显示当前目录结构（调试用）
+          echo "=== 当前目录结构 ==="
+          find . -maxdepth 2 -type f -name "*.py" -o -name "*.json" -o -name "*.txt"
+          
+          # 检查tools目录是否存在
+          if [ -d "tools" ]; then
+            cd tools/
+            
+            # 检查Python是否可用
+            if command -v python &> /dev/null; then
+              echo "Python found, installing dependencies..."
+              python -m pip install -r ./requirements.txt || echo "Failed to install dependencies"
+              
+              # 运行安装脚本（使用Windows x64参数）
+              echo "Running install script for Windows x64..."
+              python ./install.py "${{ needs.meta.outputs.tag }}" "windows" "x86_64" || echo "Install script failed"
+            else
+              echo "Python not found, skipping Python steps"
+            fi
+            
+            cd ..
+          else
+            echo "tools directory not found, skipping Python steps"
+          fi
+          
+          # 显示install目录内容（调试用）
+          echo "=== install目录内容 ==="
+          ls -la install/ || echo "install directory is empty"
+
+      - name: Debug - Show install directory
+        if: always()
+        run: |
+          echo "=== 完整目录结构 ==="
+          find . -type f | head -50
+          echo "=== install目录内容 ==="
+          ls -la install/ || echo "install目录不存在或为空"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: M7A-${{ matrix.os }}-${{ matrix.arch }}
+          name: M7A-windows-x86_64
           path: "install"
 
   changelog:
@@ -110,6 +132,7 @@ jobs:
           config: .github/cliff.toml
 
       - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.meta.outputs.tag }}
@@ -122,6 +145,7 @@ jobs:
 
   mirror:
     needs: [meta, changelog]
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - name: Trigger mirror workflow

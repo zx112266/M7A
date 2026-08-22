@@ -50,7 +50,7 @@ jobs:
 
       - name: 复制interface.json到程序根目录
         run: |
-          Copy-Item -Path ./interface.json -Destination "${{ steps.find_dir.outputs.app_dir }}" -Force
+           Copy-Item -Path ./interface.json -Destination "${{ steps.find_dir.outputs.app_dir }}" -Force
 
       - name: 打包为带版本号的zip文件
         run: |

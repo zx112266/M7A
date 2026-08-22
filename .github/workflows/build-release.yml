@@ -1,12 +1,24 @@
 name: M7A 自动打包MFAAvalonia
 permissions:
   contents: write
+
+env:
+  MAAFW_VERSION: ""
+
 on:
   push:
   workflow_dispatch:
+
 jobs:
   build_package:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: win-x86_64
+          - os: windows-latest
+            name: win-aarch64
     steps:
       - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
@@ -22,54 +34,104 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "当前版本号: $version"
 
-      - name: 下载MFAAvalonia最新Windows发行包
-        run: |
-          New-Item -ItemType Directory -Path ./download -Force
-          gh release download --repo MaaXYZ/MFAAvalonia --pattern "*win-x64.zip" --dir ./download
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 解压压缩包
-        run: |
-          $zipFile = Get-ChildItem ./download/*.zip | Select-Object -First 1
-          Expand-Archive -Path $zipFile.FullName -DestinationPath ./app -Force
-
-      - name: 定位程序根目录
-        id: find_dir
-        run: |
-          $appDir = Get-ChildItem ./app -Directory | Select-Object -First 1 -ExpandProperty FullName
-          echo "app_dir=$appDir" >> $env:GITHUB_OUTPUT
-
-      - name: 复制M7A的assets脚本到程序目录
-        run: |
-          $targetPath = "${{ steps.find_dir.outputs.app_dir }}/assets"
-          if (-not (Test-Path $targetPath)) {
-            New-Item -ItemType Directory -Path $targetPath -Force
-          }
-          Copy-Item -Path ./assets/* -Destination $targetPath -Recurse -Force
-
-      - name: 复制interface.json到程序根目录
-        run: |
-          Copy-Item -Path ./interface.json -Destination "${{ steps.find_dir.outputs.app_dir }}" -Force
-
-      - name: 打包为带版本号的zip文件
-        run: |
-          New-Item -ItemType Directory -Path ./dist -Force
-          $fileName = "M7A-${{ steps.get_version.outputs.version }}-win-x64.zip"
-          Compress-Archive -Path "${{ steps.find_dir.outputs.app_dir }}/*" -DestinationPath "./dist/$fileName" -Force
-          echo "生成文件: $fileName"
-
-      - name: 上传构建产物
-        uses: actions/upload-artifact@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          name: M7A-release-win-x64
-          path: ./dist/*.zip
+          python-version: '3.11'
 
-      - name: 发布到仓库 Releases
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install MaaCLI
+        shell: bash
+        run: |
+          winget install MaaWpf.MaaCLI --accept-package-agreements --accept-source-agreements
+
+      - name: MaaCLI Deps
+        shell: bash
+        run: |
+          maa install
+
+      - name: Download MaaFramework Release
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: MaaXYZ/MaaFramework
+          tag: ${{ env.MAAFW_VERSION }}
+          fileName: "MaaFramework-${{ env.MAAFW_VERSION }}-${{ matrix.name }}*"
+          out-file-path: framework
+          unzip: true
+
+      - name: Download MaaPipelineAssets Release
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: MaaXYZ/MaaPipelineAssets
+          tag: ${{ env.MAAFW_VERSION }}
+          fileName: "MaaPipelineAssets-${{ env.MAAFW_VERSION }}-${{ matrix.name }}*"
+          out-file-path: pipeline
+          unzip: true
+
+      - name: Download MaaTemplateAssets Release
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: MaaXYZ/MaaTemplateAssets
+          tag: ${{ env.MAAFW_VERSION }}
+          fileName: "MaaTemplateAssets-${{ env.MAAFW_VERSION }}-${{ matrix.name }}*"
+          out-file-path: template
+          unzip: true
+
+      - name: Generate debug project
+        shell: bash
+        run: |
+          maa init
+
+      - name: Update version
+        run: |
+          cd ./debug
+          sed -i "s/version = .*/version = \"${{ steps.get_version.outputs.version }}\"/" interface.json
+
+      - name: Merge Project Resources and Interface
+        shell: bash
+        run: |
+          cp ./assets/* ./debug/assets/resource/ -r
+          cp interface.json ./debug/
+
+      - name: Build MaaTemplateAssets
+        shell: bash
+        run: |
+          cd debug
+          maa build
+          cd ..
+
+      - name: Compress Windows Distribution
+        shell: bash
+        run: |
+          cd ./debug
+          mkdir release
+          cp interface.json release/
+          cp assets release/ -r
+          cp deps release/
+          cp install release/
+          cp source release/
+
+          cd release
+
+          python3 -c "
+          import json
+          f = open('assets/pipeline/interface.json', 'r', encoding='utf-8')
+          d = json.load(f)
+          d['resource'][0]['path'] = ['./assets/resource', '../assets/resource']
+          json.dump(d, open('assets/pipeline/interface.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ':'))
+          "
+
+          cd ..
+          zip -r "../M7A-${{ steps.get_version.outputs.version }}-${{ matrix.name }}.zip" ./debug/release
+
+      - name: Upload to Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: ./dist/*.zip
+          files: ./M7A-${{ steps.get_version.outputs.version }}-${{ matrix.name }}.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

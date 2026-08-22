@@ -1,204 +1,75 @@
-name: Install M7A
-
-env:
-  MAAFW_VERSION: ""
-  MFAA_VERSION: ""
-
+name: M7A 自动打包MFAAvalonia
+permissions:
+  contents: write
 on:
   push:
-    branches:
-      - "**"
-    paths:
-      - ".github/workflows/install.yml"
-      - "assets/**"
-      - "**.py"
-      - "interface.json"
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - ".github/workflows/install.yml"
-      - "assets/**"
-      - "**.py"
-      - "interface.json"
   workflow_dispatch:
-
 jobs:
-  meta:
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.set_tag.outputs.tag }}
-      is_release: ${{ steps.set_release.outputs.is_release }}
-      is_prerelease: ${{ steps.set_release.outputs.is_prerelease }}
+  build_package:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 设置版本信息
-        id: set_tag
-        run: |
-          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=$(git describe --tags --always)" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: 判断是否为发布版本
-        id: set_release
-        run: |
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            echo "is_release=true" >> "$GITHUB_OUTPUT"
-            if [[ "${GITHUB_REF}" =~ (beta|alpha|rc) ]]; then
-              echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
-            fi
-          else
-            echo "is_release=false" >> "$GITHUB_OUTPUT"
-            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
-          fi
-
-  install:
-    needs: meta
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
+      - name: 检出本仓库M7A代码
         uses: actions/checkout@v4
 
-      - name: 显示项目结构（调试用）
+      - name: 提取版本号
+        id: get_version
         run: |
-          echo "=== 项目根目录结构 ==="
-          ls -la
-          echo "=== 查找 interface.json ==="
-          find . -name "interface.json" -type f
+          if ("${{ github.ref }}" -like "refs/tags/*") {
+            $version = "${{ github.ref }}".Replace("refs/tags/", "")
+          } else {
+            $version = "latest"
+          }
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "当前版本号: $version"
 
-      - name: Install
-        shell: bash
+      - name: 下载MFAAvalonia最新Windows发行包
         run: |
-          mkdir -p install
-          
-          if [ -d "MFA" ]; then
-            echo "Copying MFA files to install directory..."
-            rsync -av --ignore-existing MFA/ install/
-          else
-            echo "MFA directory not found, skipping copy."
-          fi
-          
-          if [ -f "interface.json" ]; then
-            echo "Copying interface.json to install directory..."
-            cp interface.json install/
-            echo "interface.json copied successfully."
-          else
-            echo "interface.json not found, skipping copy."
-          fi
-          
-          echo "=== install目录内容 ==="
-          ls -la install/
+          New-Item -ItemType Directory -Path ./download -Force
+          gh release download --repo MaaXYZ/MFAAvalonia --pattern "*win-x64.zip" --dir ./download
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          if [ -d "tools" ]; then
-            cd tools/
-            if command -v python &> /dev/null; then
-              python -m pip install -r ./requirements.txt || echo "依赖安装失败"
-              python ./install.py "${{ needs.meta.outputs.tag }}" "windows" "x86_64" || echo "install.py 执行失败"
-            else
-              echo "Python not found, skipping"
-            fi
-            cd ..
-          else
-            echo "tools directory not found, skipping"
-          fi
-          
-          echo "=== 最终 install 目录内容 ==="
-          find install/ -type f | head -30
+      - name: 解压压缩包
+        run: |
+          $zipFile = Get-ChildItem ./download/*.zip | Select-Object -First 1
+          Expand-Archive -Path $zipFile.FullName -DestinationPath ./app -Force
+
+      - name: 定位程序根目录
+        id: find_dir
+        run: |
+          $appDir = Get-ChildItem ./app -Directory | Select-Object -First 1 -ExpandProperty FullName
+          echo "app_dir=$appDir" >> $env:GITHUB_OUTPUT
+
+      - name: 复制M7A的assets脚本到程序目录
+        run: |
+          $targetPath = "${{ steps.find_dir.outputs.app_dir }}/assets"
+          if (-not (Test-Path $targetPath)) {
+            New-Item -ItemType Directory -Path $targetPath -Force
+          }
+          Copy-Item -Path ./assets/* -Destination $targetPath -Recurse -Force
+
+      - name: 复制interface.json到程序根目录
+        run: |
+          Copy-Item -Path ./interface.json -Destination "${{ steps.find_dir.outputs.app_dir }}" -Force
+
+      - name: 打包为带版本号的zip文件
+        run: |
+          New-Item -ItemType Directory -Path ./dist -Force
+          $fileName = "M7A-${{ steps.get_version.outputs.version }}-win-x64.zip"
+          Compress-Archive -Path "${{ steps.find_dir.outputs.app_dir }}/*" -DestinationPath "./dist/$fileName" -Force
+          echo "生成文件: $fileName"
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v4
         with:
-          name: M7A-windows-x86_64
-          path: "install"
-          retention-days: 1
+          name: M7A-release-win-x64
+          path: ./dist/*.zip
 
-  changelog:
-    name: Generate changelog
-    needs: meta
-    runs-on: ubuntu-latest
-    outputs:
-      release_body: ${{ steps.git-cliff.outputs.content }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: 发布到仓库 Releases
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
         with:
-          fetch-depth: 0
-
-      - name: Generate a changelog
-        uses: orhun/git-cliff-action@v4
-        id: git-cliff
-        with:
-          config: .github/cliff.toml
-        continue-on-error: true
-
-  release:
-    name: 发布到 Releases
-    needs: [meta, install, changelog]
-    if: always() && needs.install.result == 'success'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: 下载构建产物
-        uses: actions/download-artifact@v4
-        with:
-          name: M7A-windows-x86_64
-          path: release-package
-
-      - name: 验证构建产物
-        run: |
-          echo "=== 构建产物内容 ==="
-          ls -la release-package/
-          if [ -f "release-package/interface.json" ]; then
-            echo "✅ interface.json 存在"
-          else
-            echo "❌ interface.json 不存在"
-          fi
-
-      - name: 创建并上传到 GitHub Release
-        shell: bash
+          files: ./dist/*.zip
+          generate_release_notes: true
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${{ needs.meta.outputs.tag }}"
-          BODY="${{ needs.changelog.outputs.release_body }}"
-          
-          # 如果 body 为空，使用默认值
-          if [ -z "$BODY" ]; then
-            BODY="自动构建版本 $TAG"
-          fi
-
-          # 打包为 zip 文件
-          cd release-package
-          zip -r "../M7A-${TAG}-win-x64.zip" .
-          cd ..
-
-          echo "准备创建 Release: $TAG"
-          echo "文件列表:"
-          ls -la M7A-${TAG}-win-x64.zip
-
-          # 使用 gh CLI 创建 Release
-          gh release create "$TAG" \
-            "M7A-${TAG}-win-x64.zip" \
-            --title "Release $TAG" \
-            --notes "$BODY" \
-            --repo "$GITHUB_REPOSITORY" \
-            ${NEEDS_META_OUTPUTS_IS_PRERELEASE} \
-            || echo "gh release create 失败，尝试更新已有 Release..."
-
-          # 如果创建失败（标签已存在），则上传资产到已有 Release
-          gh release upload "$TAG" \
-            "M7A-${TAG}-win-x64.zip" \
-            --repo "$GITHUB_REPOSITORY" \
-            --clobber \
-            || echo "上传资产失败"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

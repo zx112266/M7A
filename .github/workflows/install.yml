@@ -79,36 +79,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Python
-        if: ${{ !matrix.android }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       - uses: actions/setup-node@v4
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         with:
           node-version: '18'
 
       - name: Install MaaCLI
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         shell: bash
         run: |
           if [[ "$RUNNER_OS" == "Windows" ]]; then
-            echo "winget install MaaWpf.MaaCLI --accept-package-agreements --accept-source-agreements" >> $GITHUB_ENV
             winget install MaaWpf.MaaCLI --accept-package-agreements --accept-source-agreements
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            if [ -n "${{ env.MAAFW_VERSION }}" ]; then
-              curl -sL https://github.com/MaaXYZ/MaaFramework/releases/download/${{ env.MAAFW_VERSION }}/MaaCLI-${{ env.MAAFW_VERSION }}-macos-x86_64.tar.gz | tar -xz
-              mv MaaCLI-*/bin/maa /usr/local/bin/
-            else
-              brew install MaaWarp/tap/maa-cli
-              maa self update
-            fi
+            brew install MaaWarp/tap/maa-cli
+            maa self update
           fi
 
       - name: MaaCLI Deps
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         shell: bash
         run: |
           maa install
@@ -141,7 +129,7 @@ jobs:
           unzip: true
 
       - name: Generate debug project
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         shell: bash
         run: |
           maa init
@@ -156,7 +144,7 @@ jobs:
           fi
 
       - name: Merge MaaTemplateAssets and Project Resources
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         shell: bash
         run: |
           cp ./assets/* ./debug/assets/resource/ -r
@@ -167,7 +155,7 @@ jobs:
           fi
 
       - name: Build MaaTemplateAssets
-        if: ${{ !matrix.android }}
+        if: ${{ !startsWith(matrix.name, 'android') }}
         shell: bash
         run: |
           cd debug
@@ -175,7 +163,7 @@ jobs:
           cd ..
 
       - name: Compress the Android Distribution
-        if: matrix.name == 'android-x86_64' || matrix.name == 'android-aarch64'
+        if: startsWith(matrix.name, 'android')
         shell: bash
         run: |
           cd ./debug
@@ -183,9 +171,7 @@ jobs:
           mv assets release/ -r
           mv deps release/
           mv install release/
-
           cd release
-
           python3 -c "
           import json
           f = open('assets/pipeline/interface.json', 'r', encoding='utf-8')
@@ -193,12 +179,11 @@ jobs:
           d['resource'][0]['path'] = ['./assets/resource']
           json.dump(d, open('assets/pipeline/interface.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ':'))
           "
-
           cd ..
           zip -r ../maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.zip ./debug/release
 
       - name: Compress the Windows Distribution
-        if: matrix.name == 'win-x86_64' || matrix.name == 'win-aarch64'
+        if: startsWith(matrix.name, 'win')
         shell: bash
         run: |
           cd ./debug
@@ -208,9 +193,7 @@ jobs:
           cp deps release/
           cp install release/
           cp source release/
-
           cd release
-
           python3 -c "
           import json
           f = open('assets/pipeline/interface.json', 'r', encoding='utf-8')
@@ -218,12 +201,11 @@ jobs:
           d['resource'][0]['path'] = ['./assets/resource', '../assets/resource']
           json.dump(d, open('assets/pipeline/interface.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ':'))
           "
-
           cd ..
           zip -r ../maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.zip ./debug/release
 
       - name: Compress the MacOS Distribution
-        if: matrix.name == 'macos-x86_64' || matrix.name == 'macos-aarch64'
+        if: startsWith(matrix.name, 'macos')
         shell: bash
         run: |
           cd ./debug
@@ -233,9 +215,7 @@ jobs:
           cp deps release/
           cp install release/
           cp source release/
-
           cd release
-
           python3 -c "
           import json
           f = open('assets/pipeline/interface.json', 'r', encoding='utf-8')
@@ -243,13 +223,12 @@ jobs:
           d['resource'][0]['path'] = ['./assets/resource', '../assets/resource']
           json.dump(d, open('assets/pipeline/interface.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ':'))
           "
-
           cd ..
           zip -r ../maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.zip ./debug/release
 
       - uses: actions/upload-artifact@v4
         with:
-          name: maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}
+          name: M7A-${{ matrix.name }}
           path: ./maa-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.zip
 
   changelog:

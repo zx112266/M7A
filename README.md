@@ -40,4 +40,4 @@
 
 感谢以下开发者对本项目作出的贡献（下面链接改成你自己的项目地址）:
 
-[![Contributors](https://contrib.rocks/image?repo=MaaXYZ/MaaFramework&max=1000)](https://github.com/MaaXYZ/MaaFramework/graphs/contributors)
+[![Contributors](https://github.com/zx112266/M7A)](https://github.com/MaaXYZ/MaaFramework/graphs/contributors)

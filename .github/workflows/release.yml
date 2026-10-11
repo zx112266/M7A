@@ -1,12 +1,9 @@
 name: Build & Release
-
 on:
   push:
     tags: ['v*']
-
 permissions:
   contents: write
-
 jobs:
   package:
     runs-on: windows-latest
@@ -70,17 +67,14 @@ jobs:
           name: M7A ${{ github.ref_name }}
           body: |
             ## M7A 七骑士自动化 ${{ github.ref_name }}
-
             ### 使用方法
             1. 下载 `M7A-${{ github.ref_name }}-win-x64.zip`
             2. 解压到任意目录
             3. 安装 [.NET 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
             4. 运行 `MFAAvalonia.exe`
-
             ### 更新方法
             - **方式A**：下载新版本 zip 解压覆盖
             - **方式B**：只替换 `resource/` 文件夹
-
             ### 包含任务
             - 启动游戏 / 签到奖励 / 商店购买
             - 迷宫 / 竞技场 / 讨伐

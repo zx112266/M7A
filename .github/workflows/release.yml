@@ -1,0 +1,91 @@
+name: Build & Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 下载 MFAAvalonia
+        shell: pwsh
+        run: |
+          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/MaaXYZ/MFAAvalonia/releases/latest"
+          $asset = $release.assets | Where-Object { $_.name -like "*win-x64*" -and $_.name -like "*.zip" } | Select-Object -First 1
+          if (-not $asset) { throw "找不到 win-x64 版本" }
+          Write-Host "下载: $($asset.name) ($([math]::Round($asset.size/1MB,1)) MB)"
+          Invoke-WebRequest -Uri $asset.browser_download_url -OutFile mfa.zip
+          Expand-Archive mfa.zip -DestinationPath ./package
+          Remove-Item mfa.zip
+
+      - name: 复制资源文件
+        shell: pwsh
+        run: |
+          Copy-Item interface.json ./package/
+          Copy-Item resource ./package/resource -Recurse -Force
+          Write-Host "资源文件复制完成"
+
+      - name: 验证打包结果
+        shell: pwsh
+        run: |
+          Write-Host "=== 验证关键文件 ==="
+          $checks = @(
+            "./package/interface.json",
+            "./package/resource/base/pipeline/start.json",
+            "./package/resource/base/pipeline/shop.json",
+            "./package/resource/base/pipeline/arena.json",
+            "./package/resource/base/pipeline/labyrinth.json",
+            "./package/resource/base/pipeline/hunt.json",
+            "./package/resource/base/pipeline/pet_house.json",
+            "./package/resource/base/pipeline/guide_reward.json",
+            "./package/resource/base/pipeline/guild.json",
+            "./package/resource/base/pipeline/sanctuary.json",
+            "./package/resource/base/pipeline/sign_reward.json"
+          )
+          foreach ($f in $checks) {
+            if (!(Test-Path $f)) { throw "缺失文件: $f" }
+            Write-Host "  OK: $f"
+          }
+          Write-Host "=== 验证通过 ==="
+
+      - name: 打包 ZIP
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}"
+          $zipName = "M7A-$version-win-x64.zip"
+          Compress-Archive -Path ./package/* -DestinationPath $zipName -Force
+          $size = [math]::Round((Get-Item $zipName).Length / 1MB, 1)
+          Write-Host "打包完成: $zipName ($size MB)"
+
+      - name: 创建 Release 并上传
+        uses: softprops/action-gh-release@v2
+        with:
+          name: M7A ${{ github.ref_name }}
+          body: |
+            ## M7A 七骑士自动化 ${{ github.ref_name }}
+
+            ### 使用方法
+            1. 下载 `M7A-${{ github.ref_name }}-win-x64.zip`
+            2. 解压到任意目录
+            3. 安装 [.NET 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
+            4. 运行 `MFAAvalonia.exe`
+
+            ### 更新方法
+            - **方式A**：下载新版本 zip 解压覆盖
+            - **方式B**：只替换 `resource/` 文件夹
+
+            ### 包含任务
+            - 启动游戏 / 签到奖励 / 商店购买
+            - 迷宫 / 竞技场 / 讨伐
+            - 宠物小屋 / 欧勒毕斯指南
+            - 骑士团 / 圣域
+          files: M7A-${{ github.ref_name }}-win-x64.zip
+          draft: false
+          prerelease: false

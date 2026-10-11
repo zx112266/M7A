@@ -1,64 +1,107 @@
 {
     "interface_version": 2,
-    "name": "M7A",
-    "description": "第七史诗自动化脚本",
-    "version": "v.1.1.12-1-g2f0cacc-1-g868c760-ci.5-ga02bc72",
     "controller": [
         {
-            "name": "安卓端",
-            "type": "Adb",
-            "display_short_side": 720 // 默认缩放分辨率的短边长度
-        },
-        {
-            "name": "桌面端",
-            "type": "Win32",
-            "win32": {
-                "class_regex": ".*",
-                "window_regex": "Visual Studio",
-                // 截图及控制方式,请根据项目实际情况修改
-                // 文档: https://maafw.xyz/docs/2.4-ControlMethods
-                "screencap": "PrintWindow", // 截图方式
-                "mouse": "PostMessageWithCursorPos", // 鼠标控制方式
-                "keyboard": "PostMessageWithCursorPos" // 键盘控制方式
+            "name": "ADB",
+            "type": "adb",
+            "property": {
+                "adb_config": [
+                    "-s",
+                    "${ADB_SERIAL}"
+                ]
             }
         }
     ],
     "resource": [
         {
             "name": "M7A",
-            "path": [
-                "./resource"
+            "resource": [
+                "resource/base"
             ]
         }
     ],
     "task": [
         {
-            "name": "游戏启动登录",
+            "name": "启动游戏",
             "entry": "start_game"
         },
         {
             "name": "签到奖励",
-            "entry": "sign_entry"
+            "entry": "sign_check_reward"
         },
         {
-            "name": "圣域家园领取",
-            "entry": "detect_san_entrance"
+            "name": "商店购买",
+            "entry": "shop_detect"
+        },
+        {
+            "name": "迷宫",
+            "entry": "labyrinth_entry"
+        },
+        {
+            "name": "竞技场",
+            "entry": "arena_detect"
+        },
+        {
+            "name": "讨伐",
+            "entry": "hunt_detect_battle"
         },
         {
             "name": "宠物小屋",
             "entry": "detect_pet_house"
         },
         {
-            "name": "骑士团公会任务",
+            "name": "欧勒毕斯指南",
+            "entry": "guide_detect"
+        },
+        {
+            "name": "骑士团",
             "entry": "guild_detect"
         },
         {
-            "name": "商店操作",
-            "entry": "shop_detect"
+            "name": "圣域",
+            "entry": "detect_san_entrance"
+        }
+    ],
+    "presets": [
+        {
+            "name": "日常全刷",
+            "description": "执行所有日常任务（不含启动游戏）",
+            "task": [
+                "签到奖励",
+                "商店购买",
+                "迷宫",
+                "竞技场",
+                "讨伐",
+                "宠物小屋",
+                "欧勒毕斯指南",
+                "骑士团",
+                "圣域"
+            ]
         },
         {
-            "name": "竞技场",
-            "entry": "arena_detect"
+            "name": "完整流程",
+            "description": "从启动游戏开始的完整流程",
+            "task": [
+                "启动游戏",
+                "签到奖励",
+                "商店购买",
+                "迷宫",
+                "竞技场",
+                "讨伐",
+                "宠物小屋",
+                "欧勒毕斯指南",
+                "骑士团",
+                "圣域"
+            ]
+        },
+        {
+            "name": "快速日常",
+            "description": "只执行核心日常",
+            "task": [
+                "签到奖励",
+                "商店购买",
+                "竞技场"
+            ]
         }
     ]
 }

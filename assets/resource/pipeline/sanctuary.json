@@ -1,25 +1,31 @@
 {
     "detect_san_entrance": {
-        "recognition": "TemplateMatch",
-        "template": "sanctuary_main/san_entrance.png",
-        "roi": [
-            0,
-            0,
-            1280,
-            720
-        ],
-        "threshold": 0.82,
+        "desc": "识别圣域入口",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "sanctuary_main/san_entrance.png"
+                ],
+                "roi": [
+                    0,
+                    0,
+                    1280,
+                    720
+                ],
+                "threshold": 0.82
+            }
+        },
         "timeout": 6000,
         "pre_wait_freezes": 400,
-        "wait_freezes_param": {
-            "timeout": 6000
-        },
         "action": {
             "type": "Click",
-            "target": [
-                60,
-                170
-            ]
+            "param": {
+                "target": [
+                    60,
+                    170
+                ]
+            }
         },
         "repeat": 1,
         "repeat_delay": 2000,
@@ -28,42 +34,49 @@
         ]
     },
     "wait_page_render": {
+        "desc": "等待页面渲染",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 200,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "next": [
             "judge_forest"
         ]
     },
     "judge_forest": {
-        "recognition": "OCR",
-        "expected": "精灵之森",
-        "roi": [
-            1100,
-            150,
-            150,
-            60
-        ],
+        "desc": "识别精灵之森",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    150,
+                    150,
+                    60
+                ],
+                "expected": [
+                    "精灵之森"
+                ]
+            }
+        },
         "timeout": 3000,
-        "retry_times": 1,
+        "on_error": [
+            "san_task_end"
+        ],
         "next": [
             "click_forest"
-        ],
-        "failed_next": [
-            "san_task_end"
         ]
     },
     "click_forest": {
+        "desc": "点击精灵之森",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1191,
-                172
-            ]
+            "param": {
+                "target": [
+                    1191,
+                    172
+                ]
+            }
         },
         "repeat": 1,
         "repeat_delay": 2000,
@@ -72,13 +85,16 @@
         ]
     },
     "click_penguin": {
+        "desc": "点击企鹅，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1079,
-                249
-            ]
+            "param": {
+                "target": [
+                    1079,
+                    249
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -87,13 +103,16 @@
         ]
     },
     "click_spring": {
+        "desc": "点击泉水，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1060,
-                362
-            ]
+            "param": {
+                "target": [
+                    1060,
+                    362
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -102,13 +121,16 @@
         ]
     },
     "click_plant": {
+        "desc": "点击植物，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1036,
-                481
-            ]
+            "param": {
+                "target": [
+                    1036,
+                    481
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -117,13 +139,16 @@
         ]
     },
     "click_care": {
+        "desc": "点击照料，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1126,
-                554
-            ]
+            "param": {
+                "target": [
+                    1126,
+                    554
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -132,13 +157,16 @@
         ]
     },
     "click_plant_area": {
+        "desc": "再次点击植物区域，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1036,
-                481
-            ]
+            "param": {
+                "target": [
+                    1036,
+                    481
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -147,19 +175,23 @@
         ]
     },
     "click_back": {
+        "desc": "点击返回按钮",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                37,
-                32
-            ]
+            "param": {
+                "target": [
+                    37,
+                    32
+                ]
+            }
         },
         "next": [
             "wait_after_back"
         ]
     },
     "wait_after_back": {
+        "desc": "等待返回加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "timeout": 2000,
@@ -168,36 +200,47 @@
         ]
     },
     "judge_back": {
-        "recognition": "OCR",
-        "expected": "圣域",
-        "roi": [
-            62,
-            14,
-            62,
-            39
-        ],
+        "desc": "识别圣域标题确认返回",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    62,
+                    14,
+                    62,
+                    39
+                ],
+                "expected": [
+                    "圣域"
+                ]
+            }
+        },
         "timeout": 3000,
+        "on_error": [
+            "san_task_end"
+        ],
         "next": [
             "click_back_again"
-        ],
-        "failed_next": [
-            "san_task_end"
         ]
     },
     "click_back_again": {
+        "desc": "再次点击返回回到大厅",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                37,
-                32
-            ]
+            "param": {
+                "target": [
+                    37,
+                    32
+                ]
+            }
         },
         "next": [
             "san_task_end"
         ]
     },
     "san_task_end": {
+        "desc": "流程结束",
         "recognition": "DirectHit",
         "action": "DoNothing"
     }

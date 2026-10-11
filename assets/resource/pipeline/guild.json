@@ -1,41 +1,49 @@
 {
     "guild_detect": {
-        "recognition": "OCR",
-        "expected": "骑士团",
-        "roi": [
-            870,
-            668,
-            54,
-            24
-        ],
+        "desc": "识别骑士团入口",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    870,
+                    668,
+                    54,
+                    24
+                ],
+                "expected": [
+                    "骑士团"
+                ]
+            }
+        },
         "timeout": 5000,
+        "on_error": [
+            "guild_end"
+        ],
         "next": [
             "guild_click_enter"
-        ],
-        "failed_next": [
-            "guild_end"
         ]
     },
     "guild_click_enter": {
+        "desc": "点击进入骑士团",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                895,
-                655
-            ]
+            "param": {
+                "target": [
+                    895,
+                    655
+                ]
+            }
         },
         "next": [
             "guild_wait_load"
         ]
     },
     "guild_wait_load": {
+        "desc": "等待界面加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "timeout": 8000,
         "rate_limit": 1000,
         "on_error": [
@@ -47,26 +55,36 @@
         ]
     },
     "guild_check_reward": {
-        "recognition": "OCR",
-        "expected": "获得奖励",
-        "roi": [
-            577,
-            147,
-            127,
-            43
-        ],
+        "desc": "检测获得奖励弹窗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    577,
+                    147,
+                    127,
+                    43
+                ],
+                "expected": [
+                    "获得奖励"
+                ]
+            }
+        },
         "next": [
             "guild_click_reward"
         ]
     },
     "guild_click_reward": {
+        "desc": "点击领取奖励，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                627,
-                633
-            ]
+            "param": {
+                "target": [
+                    627,
+                    633
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -75,38 +93,46 @@
         ]
     },
     "guild_check_boss": {
-        "recognition": "OCR",
-        "expected": "世界首领战",
-        "roi": [
-            245,
-            446,
-            96,
-            22
-        ],
+        "desc": "识别世界首领战入口",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    245,
+                    446,
+                    96,
+                    22
+                ],
+                "expected": [
+                    "世界首领战"
+                ]
+            }
+        },
         "next": [
             "guild_click_boss"
         ]
     },
     "guild_click_boss": {
+        "desc": "点击世界首领战",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                288,
-                429
-            ]
+            "param": {
+                "target": [
+                    288,
+                    429
+                ]
+            }
         },
         "next": [
             "guild_wait_boss_load"
         ]
     },
     "guild_wait_boss_load": {
+        "desc": "等待首领战界面加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "timeout": 8000,
         "rate_limit": 1000,
         "on_error": [
@@ -119,64 +145,86 @@
         ]
     },
     "guild_check_count": {
-        "recognition": "OCR",
-        "expected": "2",
-        "roi": [
-            1058,
-            651,
-            18,
-            29
-        ],
+        "desc": "检查剩余次数为2",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1058,
+                    651,
+                    18,
+                    29
+                ],
+                "expected": [
+                    "2"
+                ]
+            }
+        },
         "next": [
             "guild_click_team"
         ]
     },
     "guild_check_one": {
-        "recognition": "OCR",
-        "expected": "1",
-        "roi": [
-            1058,
-            651,
-            18,
-            29
-        ],
+        "desc": "检查剩余次数为1",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1058,
+                    651,
+                    18,
+                    29
+                ],
+                "expected": [
+                    "1"
+                ]
+            }
+        },
         "next": [
             "guild_click_team"
         ]
     },
     "guild_click_team": {
+        "desc": "点击出战按钮",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1158,
-                665
-            ]
+            "param": {
+                "target": [
+                    1158,
+                    665
+                ]
+            }
         },
         "next": [
             "guild_wait_team_1"
         ]
     },
     "guild_wait_team_1": {
+        "desc": "等待队伍界面加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "next": [
             "guild_check_form_team"
         ]
     },
     "guild_check_form_team": {
-        "recognition": "OCR",
-        "expected": "组成战斗队伍",
-        "roi": [
-            1016,
-            636,
-            145,
-            41
-        ],
+        "desc": "识别组成战斗队伍按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1016,
+                    636,
+                    145,
+                    41
+                ],
+                "expected": [
+                    "组成战斗队伍"
+                ]
+            }
+        },
         "timeout": 5000,
         "rate_limit": 1000,
         "on_error": [
@@ -187,38 +235,46 @@
         ]
     },
     "guild_click_form_team": {
+        "desc": "点击组成战斗队伍",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1091,
-                655
-            ]
+            "param": {
+                "target": [
+                    1091,
+                    655
+                ]
+            }
         },
         "next": [
             "guild_wait_team_2"
         ]
     },
     "guild_wait_team_2": {
+        "desc": "等待队伍配置加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "next": [
             "guild_check_auto_config"
         ]
     },
     "guild_check_auto_config": {
-        "recognition": "OCR",
-        "expected": "自动配置",
-        "roi": [
-            110,
-            637,
-            101,
-            36
-        ],
+        "desc": "识别自动配置按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    110,
+                    637,
+                    101,
+                    36
+                ],
+                "expected": [
+                    "自动配置"
+                ]
+            }
+        },
         "timeout": 5000,
         "rate_limit": 1000,
         "on_error": [
@@ -229,38 +285,46 @@
         ]
     },
     "guild_click_auto_config": {
+        "desc": "点击自动配置",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                172,
-                673
-            ]
+            "param": {
+                "target": [
+                    172,
+                    673
+                ]
+            }
         },
         "next": [
             "guild_wait_team_3"
         ]
     },
     "guild_wait_team_3": {
+        "desc": "等待配置完成",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "next": [
             "guild_check_battle_start"
         ]
     },
     "guild_check_battle_start": {
-        "recognition": "OCR",
-        "expected": "战斗开始",
-        "roi": [
-            868,
-            634,
-            95,
-            45
-        ],
+        "desc": "识别战斗开始按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    868,
+                    634,
+                    95,
+                    45
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
         "timeout": 5000,
         "rate_limit": 1000,
         "on_error": [
@@ -271,38 +335,46 @@
         ]
     },
     "guild_click_battle_start": {
+        "desc": "点击战斗开始",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                864,
-                654
-            ]
+            "param": {
+                "target": [
+                    864,
+                    654
+                ]
+            }
         },
         "next": [
             "guild_battle_wait"
         ]
     },
     "guild_battle_wait": {
+        "desc": "等待战斗结束",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 10000,
-        "wait_freezes_param": {
-            "timeout": 13000
-        },
         "next": [
             "guild_check_skip"
         ]
     },
     "guild_check_skip": {
-        "recognition": "OCR",
-        "expected": "跳过",
-        "roi": [
-            1052,
-            17,
-            49,
-            31
-        ],
+        "desc": "识别跳过按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1052,
+                    17,
+                    49,
+                    31
+                ],
+                "expected": [
+                    "跳过"
+                ]
+            }
+        },
         "timeout": 5000,
         "rate_limit": 1000,
         "on_error": [
@@ -313,115 +385,144 @@
         ]
     },
     "guild_click_skip": {
+        "desc": "点击跳过",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1115,
-                31
-            ]
+            "param": {
+                "target": [
+                    1115,
+                    31
+                ]
+            }
         },
         "next": [
             "guild_wait_result"
         ]
     },
     "guild_wait_result": {
+        "desc": "等待战斗结果",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 5000,
-        "wait_freezes_param": {
-            "timeout": 8000
-        },
         "next": [
             "guild_check_all_on",
             "guild_check_confirm_1"
         ]
     },
     "guild_check_all_on": {
-        "recognition": "OCR",
-        "expected": "全部开启",
-        "roi": [
-            584,
-            606,
-            108,
-            41
-        ],
+        "desc": "识别全部开启按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    584,
+                    606,
+                    108,
+                    41
+                ],
+                "expected": [
+                    "全部开启"
+                ]
+            }
+        },
         "next": [
             "guild_click_all_on"
         ]
     },
     "guild_click_all_on": {
+        "desc": "点击全部开启",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                649,
-                633
-            ]
+            "param": {
+                "target": [
+                    649,
+                    633
+                ]
+            }
         },
         "next": [
             "guild_check_confirm_1"
         ]
     },
     "guild_check_confirm_1": {
-        "recognition": "OCR",
-        "expected": "确认",
-        "roi": [
-            584,
-            606,
-            108,
-            41
-        ],
+        "desc": "识别确认按钮（第一处）",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    584,
+                    606,
+                    108,
+                    41
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
         "next": [
             "guild_click_confirm_1"
         ]
     },
     "guild_click_confirm_1": {
+        "desc": "点击确认（第一处）",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                649,
-                633
-            ]
+            "param": {
+                "target": [
+                    649,
+                    633
+                ]
+            }
         },
         "next": [
             "guild_check_confirm_2"
         ]
     },
     "guild_check_confirm_2": {
-        "recognition": "OCR",
-        "expected": "确认",
-        "roi": [
-            1122,
-            641,
-            64,
-            35
-        ],
+        "desc": "识别确认按钮（第二处）",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1122,
+                    641,
+                    64,
+                    35
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
         "next": [
             "guild_click_confirm_2"
         ]
     },
     "guild_click_confirm_2": {
+        "desc": "点击确认（第二处）",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                1154,
-                656
-            ]
+            "param": {
+                "target": [
+                    1154,
+                    656
+                ]
+            }
         },
         "next": [
             "guild_wait_return"
         ]
     },
     "guild_wait_return": {
+        "desc": "等待返回首领战界面",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 2000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "timeout": 8000,
         "rate_limit": 1000,
         "on_error": [
@@ -434,56 +535,68 @@
         ]
     },
     "guild_check_zero": {
-        "recognition": "OCR",
-        "expected": "0",
-        "roi": [
-            1058,
-            651,
-            18,
-            29
-        ],
+        "desc": "检查剩余次数为0，全部打完",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1058,
+                    651,
+                    18,
+                    29
+                ],
+                "expected": [
+                    "0"
+                ]
+            }
+        },
         "next": [
             "guild_click_back"
         ]
     },
     "guild_click_back": {
+        "desc": "点击返回按钮",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                33,
-                34
-            ]
+            "param": {
+                "target": [
+                    33,
+                    34
+                ]
+            }
         },
         "next": [
             "guild_wait_back"
         ]
     },
     "guild_wait_back": {
+        "desc": "等待返回加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "pre_wait_freezes": 3000,
-        "wait_freezes_param": {
-            "timeout": 5000
-        },
         "next": [
             "guild_click_back_2"
         ]
     },
     "guild_click_back_2": {
+        "desc": "再次点击返回按钮回到大厅",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                33,
-                34
-            ]
+            "param": {
+                "target": [
+                    33,
+                    34
+                ]
+            }
         },
         "next": [
             "guild_end"
         ]
     },
     "guild_end": {
+        "desc": "流程结束",
         "recognition": "DirectHit",
         "action": "DoNothing"
     }

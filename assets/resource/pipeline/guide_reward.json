@@ -1,0 +1,199 @@
+{
+    "guide_detect": {
+        "desc": "识别欧勒毕斯指南入口并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    938,
+                    666,
+                    96,
+                    31
+                ],
+                "expected": [
+                    "欧勒毕斯指南"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    984,
+                    658,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "guide_click_exit"
+        ],
+        "next": [
+            "guide_click_claim"
+        ]
+    },
+    "guide_click_claim": {
+        "desc": "识别欧勒毕斯指南并点击领取",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    61,
+                    59,
+                    181,
+                    46
+                ],
+                "expected": [
+                    "欧勒毕斯指南"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1171,
+                    103,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "guide_click_exit"
+        ],
+        "next": [
+            "guide_close_popup"
+        ]
+    },
+    "guide_close_popup": {
+        "desc": "识别点击关闭并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    590,
+                    509,
+                    102,
+                    41
+                ],
+                "expected": [
+                    "点击关闭"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    635,
+                    531,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "guide_click_exit"
+        ],
+        "next": [
+            "guide_click_exit"
+        ]
+    },
+    "guide_click_exit": {
+        "desc": "点击退出按钮返回",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    413,
+                    12,
+                    2,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "on_error": [
+            "guide_back_to_lobby"
+        ],
+        "next": [
+            "guide_back_to_lobby"
+        ]
+    },
+    "guide_back_to_lobby": {
+        "desc": "返回大厅循环",
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 60000,
+        "rate_limit": 500,
+        "on_error": [
+            "guide_end"
+        ],
+        "next": [
+            "guide_flag_in_lobby",
+            "guide_click_exit_again"
+        ]
+    },
+    "guide_flag_in_lobby": {
+        "desc": "识别大厅界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    371,
+                    87,
+                    39
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "next": [
+            "guide_end"
+        ]
+    },
+    "guide_click_exit_again": {
+        "desc": "再次点击退出按钮",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    413,
+                    12,
+                    2,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "guide_end"
+        ],
+        "next": [
+            "guide_back_to_lobby"
+        ]
+    },
+    "guide_end": {
+        "desc": "流程结束",
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

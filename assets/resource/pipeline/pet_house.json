@@ -14,7 +14,7 @@
             "click_pet_house"
         ],
         "failed_next": [
-            "pet_task_end"
+            "pet_back_to_lobby"
         ]
     },
     "click_pet_house": {
@@ -36,7 +36,7 @@
         "timeout": 5000,
         "rate_limit": 1000,
         "on_error": [
-            "pet_back"
+            "pet_back_to_lobby"
         ],
         "next": [
             "dot_check"
@@ -68,7 +68,7 @@
         "timeout": 3000,
         "rate_limit": 1000,
         "on_error": [
-            "pet_back"
+            "pet_back_to_lobby"
         ],
         "next": [
             "judge_free"
@@ -99,7 +99,7 @@
         "timeout": 3000,
         "rate_limit": 1000,
         "on_error": [
-            "pet_back"
+            "pet_back_to_lobby"
         ],
         "next": [
             "judge_result"
@@ -130,7 +130,7 @@
         "repeat": 2,
         "repeat_delay": 500,
         "next": [
-            "pet_back"
+            "pet_back_to_lobby"
         ]
     },
     "no_dot_click": {
@@ -145,21 +145,64 @@
         "repeat": 3,
         "repeat_delay": 1000,
         "next": [
-            "pet_back"
+            "pet_back_to_lobby"
         ]
     },
-    "pet_back": {
-        "recognition": "DirectHit",
-        "action": {
-            "type": "Click",
-            "target": [
-                37,
-                32
-            ]
+    "pet_back_to_lobby": {
+        "desc": "返回大厅循环",
+        "timeout": 60000,
+        "rate_limit": 500,
+        "on_error": [
+            "pet_task_end"
+        ],
+        "next": [
+            "pet_flag_in_lobby",
+            "[JumpBack]pet_click_back"
+        ]
+    },
+    "pet_flag_in_lobby": {
+        "desc": "识别大厅界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    371,
+                    87,
+                    39
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
         },
         "next": [
             "pet_task_end"
         ]
+    },
+    "pet_click_back": {
+        "desc": "点击返回按钮",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    12,
+                    9,
+                    54,
+                    49
+                ],
+                "template": [
+                    "back_button.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000
     },
     "pet_task_end": {
         "recognition": "DirectHit",

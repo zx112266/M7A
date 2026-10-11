@@ -1,0 +1,1043 @@
+{
+    "labyrinth_entry": {
+        "desc": "迷宫入口",
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_battle"
+        ]
+    },
+    "labyrinth_click_battle": {
+        "desc": "点击战斗按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1160,
+                    290,
+                    80,
+                    50
+                ],
+                "expected": [
+                    "战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_labyrinth"
+        ]
+    },
+    "labyrinth_click_labyrinth": {
+        "desc": "点击迷宫入口",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    113,
+                    1190,
+                    195
+                ],
+                "expected": [
+                    "迷宫"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_city"
+        ]
+    },
+    "labyrinth_click_city": {
+        "desc": "点击混乱的提雷尔城",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1035,
+                    263,
+                    169,
+                    39
+                ],
+                "expected": [
+                    "混乱的提雷尔城"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_team"
+        ]
+    },
+    "labyrinth_click_team": {
+        "desc": "点击选择队伍",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1031,
+                    635,
+                    128,
+                    51
+                ],
+                "expected": [
+                    "选择队伍"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_battle_start"
+        ]
+    },
+    "labyrinth_click_battle_start": {
+        "desc": "点击战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1031,
+                    635,
+                    128,
+                    51
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 6000,
+        "next": [
+            "labyrinth_click_47"
+        ]
+    },
+    "labyrinth_click_47": {
+        "desc": "点击47",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    164,
+                    133,
+                    45,
+                    34
+                ],
+                "expected": [
+                    "47"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    173,
+                    81,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_teleport1"
+        ]
+    },
+    "labyrinth_click_teleport1": {
+        "desc": "点击传送点",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    489,
+                    123
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_confirm_teleport"
+        ]
+    },
+    "labyrinth_confirm_teleport": {
+        "desc": "识别传送点并点击确认",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    568,
+                    186,
+                    143,
+                    60
+                ],
+                "expected": [
+                    "传送点"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    705,
+                    471,
+                    83,
+                    47
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_44"
+        ]
+    },
+    "labyrinth_click_44": {
+        "desc": "点击44",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    164,
+                    133,
+                    45,
+                    34
+                ],
+                "expected": [
+                    "44"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    173,
+                    81,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_teleport2"
+        ]
+    },
+    "labyrinth_click_teleport2": {
+        "desc": "点击传送坐标",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    199,
+                    63,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_confirm_teleport2"
+        ]
+    },
+    "labyrinth_confirm_teleport2": {
+        "desc": "识别传送点并点击确认",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    568,
+                    186,
+                    143,
+                    60
+                ],
+                "expected": [
+                    "传送点"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    705,
+                    471,
+                    83,
+                    47
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_click_w_key"
+        ]
+    },
+    "labyrinth_click_w_key": {
+        "desc": "点击W键移动",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    129,
+                    506
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 8000,
+        "next": [
+            "labyrinth_click_merchant"
+        ]
+    },
+    "labyrinth_click_merchant": {
+        "desc": "点击商人，点击3次",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    641,
+                    366,
+                    1,
+                    2
+                ]
+            }
+        },
+        "repeat": 3,
+        "repeat_delay": 500,
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_merchant"
+        ]
+    },
+    "labyrinth_check_merchant": {
+        "desc": "识别商人界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    59,
+                    11,
+                    61,
+                    41
+                ],
+                "expected": [
+                    "商人"
+                ]
+            }
+        },
+        "timeout": 5000,
+        "on_error": [
+            "labyrinth_click_merchant"
+        ],
+        "next": [
+            "labyrinth_check_items_phase1"
+        ]
+    },
+    "labyrinth_check_items_phase1": {
+        "desc": "第一阶段：顺序检测第1-4行",
+        "timeout": 30000,
+        "rate_limit": 500,
+        "on_error": [
+            "labyrinth_scroll_items"
+        ],
+        "next": [
+            "labyrinth_check_item_row1",
+            "labyrinth_check_item_row2",
+            "labyrinth_check_item_row3",
+            "labyrinth_check_item_row4",
+            "labyrinth_scroll_items"
+        ]
+    },
+    "labyrinth_check_item_row1": {
+        "desc": "检查第1行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    678,
+                                    87,
+                                    125,
+                                    103
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1087,
+                                    144,
+                                    47,
+                                    33
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row1"
+        ]
+    },
+    "labyrinth_buy_item_row1": {
+        "desc": "点击购买第1行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1177,
+                    161,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_check_items_phase1"
+        ]
+    },
+    "labyrinth_check_buy_dialog": {
+        "desc": "检测购买弹窗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    400,
+                    200,
+                    400,
+                    100
+                ],
+                "expected": [
+                    "确定要购买该商品吗"
+                ]
+            }
+        },
+        "timeout": 2000,
+        "on_error": [
+            "labyrinth_check_items_phase1"
+        ],
+        "next": [
+            "labyrinth_confirm_buy"
+        ]
+    },
+    "labyrinth_confirm_buy": {
+        "desc": "确认购买弹窗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    811,
+                    510,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "next": [
+            "labyrinth_check_items_phase1"
+        ]
+    },
+    "labyrinth_check_item_row2": {
+        "desc": "检查第2行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    675,
+                                    227,
+                                    130,
+                                    116
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1079,
+                                    292,
+                                    57,
+                                    30
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row2"
+        ]
+    },
+    "labyrinth_buy_item_row2": {
+        "desc": "点击购买第2行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1174,
+                    312,
+                    1,
+                    3
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_check_items_phase1"
+        ]
+    },
+    "labyrinth_check_item_row3": {
+        "desc": "检查第3行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    676,
+                                    381,
+                                    197,
+                                    102
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1085,
+                                    435,
+                                    45,
+                                    33
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row3"
+        ]
+    },
+    "labyrinth_buy_item_row3": {
+        "desc": "点击购买第3行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1189,
+                    453,
+                    2,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_check_items_phase1"
+        ]
+    },
+    "labyrinth_check_item_row4": {
+        "desc": "检查第4行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    679,
+                                    519,
+                                    183,
+                                    112
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1085,
+                                    584,
+                                    48,
+                                    27
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row4"
+        ]
+    },
+    "labyrinth_buy_item_row4": {
+        "desc": "点击购买第4行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1177,
+                    589,
+                    1,
+                    5
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_scroll_items"
+        ]
+    },
+    "labyrinth_scroll_items": {
+        "desc": "滑动商品列表",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    845,
+                    662
+                ],
+                "end": [
+                    854,
+                    172
+                ],
+                "duration": 1500
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 1000,
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_items_phase2"
+        ]
+    },
+    "labyrinth_check_items_phase2": {
+        "desc": "第二阶段：顺序检测第5-6行",
+        "timeout": 30000,
+        "rate_limit": 500,
+        "on_error": [
+            "labyrinth_exit_step1"
+        ],
+        "next": [
+            "labyrinth_check_item_row5",
+            "labyrinth_check_item_row6",
+            "labyrinth_exit_step1"
+        ]
+    },
+    "labyrinth_check_item_row5": {
+        "desc": "检查第5行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    676,
+                                    450,
+                                    230,
+                                    109
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1091,
+                                    508,
+                                    43,
+                                    33
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row5"
+        ]
+    },
+    "labyrinth_buy_item_row5": {
+        "desc": "点击购买第5行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    535,
+                    1,
+                    3
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_check_items_phase2"
+        ]
+    },
+    "labyrinth_check_item_row6": {
+        "desc": "检查第6行：强化石+购买次数1/1",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    662,
+                                    588,
+                                    249,
+                                    113
+                                ],
+                                "expected": [
+                                    "强化石"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    1087,
+                                    655,
+                                    48,
+                                    32
+                                ],
+                                "expected": [
+                                    "1/1"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_buy_item_row6"
+        ]
+    },
+    "labyrinth_buy_item_row6": {
+        "desc": "点击购买第6行",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1197,
+                    670,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_check_buy_dialog",
+            "labyrinth_exit_step1"
+        ]
+    },
+    "labyrinth_exit_step1": {
+        "desc": "返回步骤1：识别返回按钮并点击",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    12,
+                    9,
+                    54,
+                    49
+                ],
+                "template": [
+                    "back_button.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "next": [
+            "labyrinth_exit_step2"
+        ]
+    },
+    "labyrinth_exit_step2": {
+        "desc": "返回步骤2：点击[1244, 31]",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1244,
+                    31,
+                    0,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_exit_step3"
+        ]
+    },
+    "labyrinth_exit_step3": {
+        "desc": "返回步骤3：识别放弃战斗并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    583,
+                    252,
+                    115,
+                    47
+                ],
+                "expected": [
+                    "放弃战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    583,
+                    252,
+                    115,
+                    47
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "next": [
+            "labyrinth_exit_step4"
+        ]
+    },
+    "labyrinth_exit_step4": {
+        "desc": "返回步骤4：识别结束并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    435,
+                    84,
+                    43
+                ],
+                "expected": [
+                    "结束"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    700,
+                    435,
+                    84,
+                    43
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 3000,
+        "next": [
+            "labyrinth_back_to_lobby"
+        ]
+    },
+    "labyrinth_back_to_lobby": {
+        "desc": "返回大厅循环",
+        "timeout": 60000,
+        "rate_limit": 500,
+        "on_error": [
+            "labyrinth_done"
+        ],
+        "next": [
+            "labyrinth_flag_in_lobby",
+            "[JumpBack]labyrinth_click_back"
+        ]
+    },
+    "labyrinth_flag_in_lobby": {
+        "desc": "识别大厅界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    371,
+                    87,
+                    39
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "next": [
+            "labyrinth_done"
+        ]
+    },
+    "labyrinth_click_back": {
+        "desc": "点击返回按钮",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    12,
+                    9,
+                    54,
+                    49
+                ],
+                "template": [
+                    "back_button.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000
+    },
+    "labyrinth_done": {
+        "desc": "流程结束",
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": []
+    }
+}

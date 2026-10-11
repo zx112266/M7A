@@ -1,5 +1,6 @@
 {
     "start_game": {
+        "desc": "启动游戏应用",
         "action": {
             "type": "StartApp",
             "param": {
@@ -7,122 +8,143 @@
             }
         },
         "next": [
-            "wait_game_load"
+            "start_wait_game_load"
         ]
     },
-    "wait_game_load": {
-        "timeout": 35000,
+    "start_wait_game_load": {
+        "desc": "等待游戏加载完成",
+        "timeout": 40000,
         "pre_wait_freezes": 2000,
         "rate_limit": 1000,
         "on_error": [
-            "wait_main_ui"
+            "start_all_end"
         ],
         "next": [
-            "close_notice_pop"
+            "start_close_activity_pop"
         ]
     },
-    "close_notice_pop": {
-        "recognition": "OCR",
-        "expected": "官方公告",
-        "timeout": 5000,
-        "rate_limit": 1000,
+    "start_close_activity_pop": {
+        "desc": "关闭活动专区弹窗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    529,
+                    93,
+                    96,
+                    35
+                ],
+                "expected": [
+                    "活动专区"
+                ]
+            }
+        },
+        "timeout": 8000,
+        "rate_limit": 500,
         "on_error": [
-            "wait_main_ui"
+            "start_wait_before_agree"
         ],
         "action": {
             "type": "Click",
-            "target": [
-                1137,
-                77
-            ]
+            "param": {
+                "target": [
+                    1142,
+                    77
+                ]
+            }
         },
+        "post_delay": 500,
         "next": [
-            "check_ad_pop"
+            "start_wait_before_agree"
         ]
     },
-    "check_ad_pop": {
-        "recognition": "OCR",
-        "expected": "不再展示",
-        "roi": [
-            359,
-            546,
-            153,
-            34
-        ],
-        "timeout": 3000,
-        "rate_limit": 1000,
-        "on_error": [
-            "wait_main_ui"
-        ],
-        "next": [
-            "click_checkbox"
-        ]
-    },
-    "click_checkbox": {
-        "recognition": "DirectHit",
-        "action": {
-            "type": "Click",
-            "target": [
-                335,
-                560
-            ]
-        },
-        "next": [
-            "close_ad"
-        ]
-    },
-    "close_ad": {
-        "recognition": "DirectHit",
-        "action": {
-            "type": "Click",
-            "target": [
-                1003,
-                203
-            ]
-        },
-        "next": [
-            "wait_main_ui"
-        ]
-    },
-    "wait_main_ui": {
-        "timeout": 35000,
-        "pre_wait_freezes": 2000,
-        "rate_limit": 1000,
-        "on_error": [
-            "all_end"
-        ],
-        "next": [
-            "touch_start_game"
-        ]
-    },
-    "touch_start_game": {
-        "recognition": "OCR",
-        "expected": "轻触画面开始",
-        "action": {
-            "type": "Click",
-            "target": [
-                640,
-                360
-            ]
-        },
-        "repeat": 3,
-        "repeat_delay": 500,
-        "next": [
-            "wait_after_login"
-        ]
-    },
-    "wait_after_login": {
+    "start_wait_before_agree": {
+        "desc": "等待5秒后再识别同意条款",
         "recognition": "DirectHit",
         "action": "DoNothing",
-        "pre_wait_freezes": 7000,
-        "wait_freezes_param": {
-            "timeout": 15000
-        },
+        "post_delay": 5000,
         "next": [
-            "all_end"
+            "start_check_agree_terms"
         ]
     },
-    "all_end": {
+    "start_check_agree_terms": {
+        "desc": "识别同意条款，使用特征文字",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    442,
+                    622,
+                    174,
+                    38
+                ],
+                "expected": [
+                    "详细阅"
+                ]
+            }
+        },
+        "timeout": 10000,
+        "rate_limit": 500,
+        "on_error": [
+            "start_all_end"
+        ],
+        "next": [
+            "start_agree_terms_1"
+        ]
+    },
+    "start_agree_terms_1": {
+        "desc": "点击同意条款第1次，X=654",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    654,
+                    583
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "start_agree_terms_2"
+        ]
+    },
+    "start_agree_terms_2": {
+        "desc": "点击同意条款第2次，X=664",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    664,
+                    583
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "start_agree_terms_3"
+        ]
+    },
+    "start_agree_terms_3": {
+        "desc": "点击同意条款第3次，X=674",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    674,
+                    583
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "start_all_end"
+        ]
+    },
+    "start_all_end": {
+        "desc": "启动流程结束",
         "recognition": "DirectHit",
         "action": "DoNothing"
     }

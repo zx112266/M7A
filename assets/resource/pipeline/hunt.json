@@ -1,0 +1,354 @@
+{
+    "hunt_detect_battle": {
+        "desc": "识别战斗按钮并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1160,
+                    290,
+                    80,
+                    50
+                ],
+                "expected": [
+                    "战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "hunt_end"
+        ],
+        "next": [
+            "hunt_detect_subjugate"
+        ]
+    },
+    "hunt_detect_subjugate": {
+        "desc": "识别讨伐入口并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    113,
+                    1190,
+                    195
+                ],
+                "expected": [
+                    "讨伐"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 3000,
+        "timeout": 5000,
+        "on_error": [
+            "hunt_back_main"
+        ],
+        "next": [
+            "hunt_detect_hell"
+        ]
+    },
+    "hunt_detect_hell": {
+        "desc": "识别讨伐地狱级",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    750,
+                    370,
+                    130,
+                    40
+                ],
+                "expected": [
+                    "讨伐地狱级"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    828,
+                    397
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 3000,
+        "timeout": 5000,
+        "on_error": [
+            "hunt_back_battle_list"
+        ],
+        "next": [
+            "hunt_detect_quick_battle"
+        ]
+    },
+    "hunt_detect_quick_battle": {
+        "desc": "识别快速战斗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    630,
+                    120,
+                    50
+                ],
+                "expected": [
+                    "快速战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1127,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 30000,
+        "timeout": 5000,
+        "on_error": [
+            "hunt_back_subjugate"
+        ],
+        "next": [
+            "hunt_detect_close"
+        ]
+    },
+    "hunt_detect_close": {
+        "desc": "识别关闭按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    810,
+                    525,
+                    80,
+                    50
+                ],
+                "expected": [
+                    "关闭"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    851,
+                    556
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "timeout": 10000,
+        "rate_limit": 1000,
+        "on_error": [
+            "hunt_back_subjugate"
+        ],
+        "next": [
+            "hunt_check_quick_again"
+        ]
+    },
+    "hunt_check_quick_again": {
+        "desc": "再次识别快速战斗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    630,
+                    120,
+                    50
+                ],
+                "expected": [
+                    "快速战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1127,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 2000,
+        "post_delay": 30000,
+        "timeout": 3000,
+        "on_error": [
+            "hunt_back_subjugate"
+        ],
+        "next": [
+            "hunt_detect_close_again"
+        ]
+    },
+    "hunt_detect_close_again": {
+        "desc": "再次识别关闭按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    810,
+                    525,
+                    80,
+                    50
+                ],
+                "expected": [
+                    "关闭"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    851,
+                    556
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "timeout": 10000,
+        "rate_limit": 1000,
+        "on_error": [
+            "hunt_back_subjugate"
+        ],
+        "next": [
+            "hunt_back_subjugate"
+        ]
+    },
+    "hunt_back_subjugate": {
+        "desc": "返回讨伐界面",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    37,
+                    34
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "hunt_back_battle_list"
+        ]
+    },
+    "hunt_back_battle_list": {
+        "desc": "返回战斗列表",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    37,
+                    34
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "hunt_back_main"
+        ]
+    },
+    "hunt_back_main": {
+        "desc": "返回主界面",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    37,
+                    34
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "next": [
+            "hunt_back_to_lobby"
+        ]
+    },
+    "hunt_back_to_lobby": {
+        "desc": "返回大厅循环",
+        "timeout": 60000,
+        "rate_limit": 500,
+        "on_error": [
+            "hunt_end"
+        ],
+        "next": [
+            "hunt_flag_in_lobby",
+            "[JumpBack]hunt_click_back"
+        ]
+    },
+    "hunt_flag_in_lobby": {
+        "desc": "识别大厅界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    371,
+                    87,
+                    39
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "next": [
+            "hunt_end"
+        ]
+    },
+    "hunt_click_back": {
+        "desc": "点击返回按钮",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    12,
+                    9,
+                    54,
+                    49
+                ],
+                "template": [
+                    "back_button.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000
+    },
+    "hunt_end": {
+        "desc": "流程结束",
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

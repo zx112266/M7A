@@ -1,0 +1,1107 @@
+{
+    "arena_detect": {
+        "desc": "识别竞技场入口并点击（第1次）",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    368,
+                    83,
+                    40
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 4000,
+        "timeout": 5000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_sub"
+        ]
+    },
+    "arena_click_sub": {
+        "desc": "识别竞技场子入口并点击（第2次）",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    423,
+                    650,
+                    96,
+                    40
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_check_weekly_reward"
+        ]
+    },
+    "arena_check_weekly_reward": {
+        "desc": "检查每周排名奖励弹窗",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    507,
+                    147,
+                    266,
+                    70
+                ],
+                "expected": [
+                    "每周排名选择奖励"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 3000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_click_weekly_reward"
+        ]
+    },
+    "arena_click_weekly_reward": {
+        "desc": "点击每周奖励",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    724,
+                    393,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_check_claim_reward"
+        ]
+    },
+    "arena_check_claim_reward": {
+        "desc": "检查领取奖励按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    562,
+                    513,
+                    156,
+                    38
+                ],
+                "expected": [
+                    "领取选择的奖励"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 3000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_click_claim_reward"
+        ]
+    },
+    "arena_click_claim_reward": {
+        "desc": "点击领取奖励",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    637,
+                    532,
+                    1,
+                    1
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_close_reward_1"
+        ]
+    },
+    "arena_close_reward_1": {
+        "desc": "关闭奖励弹窗1",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    355,
+                    29,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_close_reward_2"
+        ]
+    },
+    "arena_close_reward_2": {
+        "desc": "关闭奖励弹窗2",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    355,
+                    29,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_close_reward_3"
+        ]
+    },
+    "arena_close_reward_3": {
+        "desc": "关闭奖励弹窗3",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    355,
+                    29,
+                    1,
+                    2
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_click_npc_entry"
+        ],
+        "next": [
+            "arena_click_npc_entry"
+        ]
+    },
+    "arena_click_npc_entry": {
+        "desc": "识别NPC对战入口并点击",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1000,
+                    180,
+                    200,
+                    80
+                ],
+                "expected": [
+                    "NPC对战"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 2000,
+        "post_delay": 2000,
+        "timeout": 5000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_select_first_npc_1"
+        ]
+    },
+    "arena_select_first_npc_1": {
+        "desc": "选择第1个NPC",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    464,
+                    224
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_challenge_1"
+        ]
+    },
+    "arena_click_challenge_1": {
+        "desc": "点击挑战",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    640,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_battle_start_1"
+        ]
+    },
+    "arena_wait_battle_start_1": {
+        "desc": "等待战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    600,
+                    250,
+                    100
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 15000,
+        "rate_limit": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_battle_start_1"
+        ]
+    },
+    "arena_click_battle_start_1": {
+        "desc": "点击战斗开始",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    844,
+                    659
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 8000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_auto_battle_1"
+        ]
+    },
+    "arena_click_auto_battle_1": {
+        "desc": "点击自动战斗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1128,
+                    38
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 35000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_reward_1"
+        ]
+    },
+    "arena_wait_reward_1": {
+        "desc": "等待战斗奖励",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    600,
+                    150,
+                    100
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 30000,
+        "on_error": [
+            "arena_click_confirm_battle_1"
+        ],
+        "next": [
+            "arena_click_confirm_battle_1"
+        ]
+    },
+    "arena_click_confirm_battle_1": {
+        "desc": "点击确认",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    658
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_select_first_npc_2"
+        ]
+    },
+    "arena_select_first_npc_2": {
+        "desc": "选择第1个NPC",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    464,
+                    224
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_challenge_2"
+        ]
+    },
+    "arena_click_challenge_2": {
+        "desc": "点击挑战",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    640,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_battle_start_2"
+        ]
+    },
+    "arena_wait_battle_start_2": {
+        "desc": "等待战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    600,
+                    250,
+                    100
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 15000,
+        "rate_limit": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_battle_start_2"
+        ]
+    },
+    "arena_click_battle_start_2": {
+        "desc": "点击战斗开始",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    844,
+                    659
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 8000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_auto_battle_2"
+        ]
+    },
+    "arena_click_auto_battle_2": {
+        "desc": "点击自动战斗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1128,
+                    38
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 35000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_reward_2"
+        ]
+    },
+    "arena_wait_reward_2": {
+        "desc": "等待战斗奖励",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    600,
+                    150,
+                    100
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 30000,
+        "on_error": [
+            "arena_click_confirm_battle_2"
+        ],
+        "next": [
+            "arena_click_confirm_battle_2"
+        ]
+    },
+    "arena_click_confirm_battle_2": {
+        "desc": "点击确认",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    658
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_select_first_npc_3"
+        ]
+    },
+    "arena_select_first_npc_3": {
+        "desc": "选择第1个NPC",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    464,
+                    224
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_challenge_3"
+        ]
+    },
+    "arena_click_challenge_3": {
+        "desc": "点击挑战",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    640,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_battle_start_3"
+        ]
+    },
+    "arena_wait_battle_start_3": {
+        "desc": "等待战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    600,
+                    250,
+                    100
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 15000,
+        "rate_limit": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_battle_start_3"
+        ]
+    },
+    "arena_click_battle_start_3": {
+        "desc": "点击战斗开始",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    844,
+                    659
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 8000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_auto_battle_3"
+        ]
+    },
+    "arena_click_auto_battle_3": {
+        "desc": "点击自动战斗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1128,
+                    38
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 35000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_reward_3"
+        ]
+    },
+    "arena_wait_reward_3": {
+        "desc": "等待战斗奖励",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    600,
+                    150,
+                    100
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 30000,
+        "on_error": [
+            "arena_click_confirm_battle_3"
+        ],
+        "next": [
+            "arena_click_confirm_battle_3"
+        ]
+    },
+    "arena_click_confirm_battle_3": {
+        "desc": "点击确认",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    658
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_select_first_npc_4"
+        ]
+    },
+    "arena_select_first_npc_4": {
+        "desc": "选择第1个NPC",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    464,
+                    224
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_challenge_4"
+        ]
+    },
+    "arena_click_challenge_4": {
+        "desc": "点击挑战",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    640,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_battle_start_4"
+        ]
+    },
+    "arena_wait_battle_start_4": {
+        "desc": "等待战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    600,
+                    250,
+                    100
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 15000,
+        "rate_limit": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_battle_start_4"
+        ]
+    },
+    "arena_click_battle_start_4": {
+        "desc": "点击战斗开始",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    844,
+                    659
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 8000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_auto_battle_4"
+        ]
+    },
+    "arena_click_auto_battle_4": {
+        "desc": "点击自动战斗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1128,
+                    38
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 35000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_reward_4"
+        ]
+    },
+    "arena_wait_reward_4": {
+        "desc": "等待战斗奖励",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    600,
+                    150,
+                    100
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 30000,
+        "on_error": [
+            "arena_click_confirm_battle_4"
+        ],
+        "next": [
+            "arena_click_confirm_battle_4"
+        ]
+    },
+    "arena_click_confirm_battle_4": {
+        "desc": "点击确认",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    658
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_select_first_npc_5"
+        ]
+    },
+    "arena_select_first_npc_5": {
+        "desc": "选择第1个NPC",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    464,
+                    224
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_challenge_5"
+        ]
+    },
+    "arena_click_challenge_5": {
+        "desc": "点击挑战",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    640,
+                    660
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_battle_start_5"
+        ]
+    },
+    "arena_wait_battle_start_5": {
+        "desc": "等待战斗开始",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    600,
+                    250,
+                    100
+                ],
+                "expected": [
+                    "战斗开始"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 15000,
+        "rate_limit": 1000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_battle_start_5"
+        ]
+    },
+    "arena_click_battle_start_5": {
+        "desc": "点击战斗开始",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    844,
+                    659
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 8000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_click_auto_battle_5"
+        ]
+    },
+    "arena_click_auto_battle_5": {
+        "desc": "点击自动战斗",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1128,
+                    38
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 35000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_wait_reward_5"
+        ]
+    },
+    "arena_wait_reward_5": {
+        "desc": "等待战斗奖励",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1100,
+                    600,
+                    150,
+                    100
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "timeout": 30000,
+        "on_error": [
+            "arena_click_confirm_battle_5"
+        ],
+        "next": [
+            "arena_click_confirm_battle_5"
+        ]
+    },
+    "arena_click_confirm_battle_5": {
+        "desc": "点击确认",
+        "recognition": "DirectHit",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1169,
+                    658
+                ]
+            }
+        },
+        "pre_delay": 1000,
+        "post_delay": 3000,
+        "on_error": [
+            "arena_back_to_lobby"
+        ],
+        "next": [
+            "arena_back_to_lobby"
+        ]
+    },
+    "arena_back_to_lobby": {
+        "desc": "返回大厅循环",
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 60000,
+        "rate_limit": 500,
+        "on_error": [
+            "arena_end"
+        ],
+        "next": [
+            "arena_flag_in_lobby",
+            "arena_click_back"
+        ]
+    },
+    "arena_flag_in_lobby": {
+        "desc": "识别大厅界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1161,
+                    371,
+                    87,
+                    39
+                ],
+                "expected": [
+                    "竞技场"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "next": [
+            "arena_end"
+        ]
+    },
+    "arena_click_back": {
+        "desc": "点击返回按钮",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    12,
+                    9,
+                    54,
+                    49
+                ],
+                "template": [
+                    "back_button.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "pre_delay": 1000,
+        "post_delay": 2000,
+        "on_error": [
+            "arena_end"
+        ],
+        "next": [
+            "arena_back_to_lobby"
+        ]
+    },
+    "arena_end": {
+        "desc": "流程结束",
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

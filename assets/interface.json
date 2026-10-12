@@ -1,22 +1,24 @@
 {
     "interface_version": 2,
+    "name": "M7A",
+    "description": "第七史诗自动化资源包",
+    "contact": "https://github.com/zx112266/M7A",
+    "license": "MIT",
+    "welcome": "首次使用！欢迎使用 M7A 第七史诗自动化！",
+    "github": "https://github.com/zx112266/M7A",
+    "version": "2.0.2",
     "controller": [
         {
-            "name": "ADB",
-            "type": "adb",
-            "property": {
-                "adb_config": [
-                    "-s",
-                    "${ADB_SERIAL}"
-                ]
-            }
+            "name": "MuMu",
+            "type": "Adb",
+            "display_short_side": 720
         }
     ],
     "resource": [
         {
             "name": "M7A",
-            "resource": [
-                "resource/base"
+            "path": [
+                "./resource"
             ]
         }
     ],
@@ -62,45 +64,74 @@
             "entry": "detect_san_entrance"
         }
     ],
-    "presets": [
+    "preset": [
         {
             "name": "日常全刷",
             "description": "执行所有日常任务（不含启动游戏）",
             "task": [
-                "签到奖励",
-                "商店购买",
-                "迷宫",
-                "竞技场",
-                "讨伐",
-                "宠物小屋",
-                "欧勒毕斯指南",
-                "骑士团",
-                "圣域"
+                {
+                    "name": "签到奖励"
+                },
+                {
+                    "name": "商店购买"
+                },
+                {
+                    "name": "迷宫"
+                },
+                {
+                    "name": "竞技场"
+                },
+                {
+                    "name": "讨伐"
+                },
+                {
+                    "name": "宠物小屋"
+                },
+                {
+                    "name": "欧勒毕斯指南"
+                },
+                {
+                    "name": "骑士团"
+                },
+                {
+                    "name": "圣域"
+                }
             ]
         },
         {
             "name": "完整流程",
             "description": "从启动游戏开始的完整流程",
             "task": [
-                "启动游戏",
-                "签到奖励",
-                "商店购买",
-                "迷宫",
-                "竞技场",
-                "讨伐",
-                "宠物小屋",
-                "欧勒毕斯指南",
-                "骑士团",
-                "圣域"
-            ]
-        },
-        {
-            "name": "快速日常",
-            "description": "只执行核心日常",
-            "task": [
-                "签到奖励",
-                "商店购买",
-                "竞技场"
+                {
+                    "name": "启动游戏"
+                },
+                {
+                    "name": "签到奖励"
+                },
+                {
+                    "name": "商店购买"
+                },
+                {
+                    "name": "迷宫"
+                },
+                {
+                    "name": "竞技场"
+                },
+                {
+                    "name": "讨伐"
+                },
+                {
+                    "name": "宠物小屋"
+                },
+                {
+                    "name": "欧勒毕斯指南"
+                },
+                {
+                    "name": "骑士团"
+                },
+                {
+                    "name": "圣域"
+                }
             ]
         }
     ]

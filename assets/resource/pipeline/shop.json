@@ -359,7 +359,7 @@
         ],
         "next": [
             "shop_flag_in_lobby",
-            "[JumpBack]shop_click_back"
+            "shop_click_back"
         ]
     },
     "shop_flag_in_lobby": {

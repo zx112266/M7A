@@ -299,7 +299,7 @@
         ],
         "next": [
             "hunt_flag_in_lobby",
-            "[JumpBack]hunt_click_back"
+            "hunt_click_back"
         ]
     },
     "hunt_flag_in_lobby": {

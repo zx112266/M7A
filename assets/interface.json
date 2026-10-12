@@ -1,5 +1,19 @@
 {
     "interface_version": 2,
+    "id": "M7A-Resource",
+    "name": "M7A 第七史诗",
+    "description": "第七史诗自动化资源包",
+    "author": "zx112266",
+    "version": "2.0.1",
+    "url": "https://github.com/zx112266/M7A",
+    "resource": [
+        {
+            "name": "M7A",
+            "resource": [
+                "resource"
+            ]
+        }
+    ],
     "controller": [
         {
             "name": "ADB",
@@ -8,16 +22,17 @@
                 "adb_config": [
                     "-s",
                     "${ADB_SERIAL}"
+                ],
+                "screencap_methods": [
+                    "EmulatorExtras",
+                    "ADBExec-out",
+                    "ADBInproc"
+                ],
+                "input_methods": [
+                    "MaaTouch",
+                    "ADBInput"
                 ]
             }
-        }
-    ],
-    "resource": [
-        {
-            "name": "M7A",
-            "resource": [
-                "resource/base"
-            ]
         }
     ],
     "task": [

@@ -987,7 +987,7 @@
         ],
         "next": [
             "labyrinth_flag_in_lobby",
-            "[JumpBack]labyrinth_click_back"
+            "labyrinth_click_back"
         ]
     },
     "labyrinth_flag_in_lobby": {

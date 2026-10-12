@@ -198,7 +198,7 @@
         ],
         "next": [
             "pet_flag_in_lobby",
-            "[JumpBack]pet_click_back"
+            "pet_click_back"
         ]
     },
     "pet_flag_in_lobby": {

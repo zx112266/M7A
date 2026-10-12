@@ -1,36 +1,46 @@
 {
     "detect_pet_house": {
-        "recognition": "OCR",
-        "expected": "宠物小屋",
-        "roi": [
-            773,
-            620,
-            74,
-            72
-        ],
+        "desc": "识别宠物小屋入口",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    773,
+                    620,
+                    74,
+                    72
+                ],
+                "expected": [
+                    "宠物小屋"
+                ]
+            }
+        },
         "timeout": 5000,
-        "retry_times": 1,
+        "on_error": [
+            "pet_back_to_lobby"
+        ],
         "next": [
             "click_pet_house"
-        ],
-        "failed_next": [
-            "pet_back_to_lobby"
         ]
     },
     "click_pet_house": {
+        "desc": "点击宠物小屋",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                804,
-                650
-            ]
+            "param": {
+                "target": [
+                    804,
+                    650
+                ]
+            }
         },
         "next": [
             "wait_pet_load"
         ]
     },
     "wait_pet_load": {
+        "desc": "等待界面加载",
         "recognition": "DirectHit",
         "action": "DoNothing",
         "timeout": 5000,
@@ -43,27 +53,35 @@
         ]
     },
     "dot_check": {
-        "recognition": "TemplateMatch",
-        "template": "sanctuary_main/dot_forest.png",
-        "roi": [
-            772,
-            625,
-            40,
-            35
-        ],
-        "threshold": 0.82,
+        "desc": "检测宠物小屋红点",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "sanctuary_main/dot_forest.png",
+                "roi": [
+                    772,
+                    625,
+                    40,
+                    35
+                ],
+                "threshold": 0.82
+            }
+        },
         "next": [
             "click_dot"
         ]
     },
     "click_dot": {
+        "desc": "点击红点",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                858,
-                659
-            ]
+            "param": {
+                "target": [
+                    858,
+                    659
+                ]
+            }
         },
         "timeout": 3000,
         "rate_limit": 1000,
@@ -75,26 +93,36 @@
         ]
     },
     "judge_free": {
-        "recognition": "OCR",
-        "expected": "免费",
-        "roi": [
-            420,
-            597,
-            52,
-            30
-        ],
+        "desc": "识别免费领养",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    420,
+                    597,
+                    52,
+                    30
+                ],
+                "expected": [
+                    "免费"
+                ]
+            }
+        },
         "next": [
             "click_free"
         ]
     },
     "click_free": {
+        "desc": "点击免费领养",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                520,
-                609
-            ]
+            "param": {
+                "target": [
+                    520,
+                    609
+                ]
+            }
         },
         "timeout": 3000,
         "rate_limit": 1000,
@@ -106,26 +134,36 @@
         ]
     },
     "judge_result": {
-        "recognition": "OCR",
-        "expected": "领养结果",
-        "roi": [
-            561,
-            67,
-            152,
-            70
-        ],
+        "desc": "识别领养结果",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    561,
+                    67,
+                    152,
+                    70
+                ],
+                "expected": [
+                    "领养结果"
+                ]
+            }
+        },
         "next": [
             "click_blank"
         ]
     },
     "click_blank": {
+        "desc": "点击空白关闭弹窗，点击2次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                57,
-                88
-            ]
+            "param": {
+                "target": [
+                    57,
+                    88
+                ]
+            }
         },
         "repeat": 2,
         "repeat_delay": 500,
@@ -134,13 +172,16 @@
         ]
     },
     "no_dot_click": {
+        "desc": "无红点时点击关闭，点击3次",
         "recognition": "DirectHit",
         "action": {
             "type": "Click",
-            "target": [
-                317,
-                25
-            ]
+            "param": {
+                "target": [
+                    317,
+                    25
+                ]
+            }
         },
         "repeat": 3,
         "repeat_delay": 1000,
@@ -205,6 +246,7 @@
         "post_delay": 2000
     },
     "pet_task_end": {
+        "desc": "流程结束",
         "recognition": "DirectHit",
         "action": "DoNothing"
     }

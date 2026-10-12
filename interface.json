@@ -1,23 +1,38 @@
 {
     "interface_version": 2,
+    "id": "M7A-Resource",
+    "name": "M7A 第七史诗",
+    "description": "第七史诗自动化资源包",
+    "author": "zx112266",
+    "version": "2.0.1",
+    "url": "https://github.com/zx112266/M7A",
+    "resource": [
+        {
+            "name": "M7A",
+            "resource": [
+                "resource"
+            ]
+        }
+    ],
     "controller": [
         {
-            "name": "ADB",
+            "name": "MuMu",
             "type": "adb",
             "property": {
                 "adb_config": [
                     "-s",
                     "${ADB_SERIAL}"
+                ],
+                "screencap_methods": [
+                    "EmulatorExtras",
+                    "ADBExec-out",
+                    "ADBInproc"
+                ],
+                "input_methods": [
+                    "MaaTouch",
+                    "ADBInput"
                 ]
             }
-        }
-    ],
-    "resource": [
-        {
-            "name": "M7A",
-            "resource": [
-                "resource/base"
-            ]
         }
     ],
     "task": [
@@ -65,7 +80,6 @@
     "presets": [
         {
             "name": "日常全刷",
-            "description": "执行所有日常任务（不含启动游戏）",
             "task": [
                 "签到奖励",
                 "商店购买",
@@ -80,7 +94,6 @@
         },
         {
             "name": "完整流程",
-            "description": "从启动游戏开始的完整流程",
             "task": [
                 "启动游戏",
                 "签到奖励",
@@ -92,15 +105,6 @@
                 "欧勒毕斯指南",
                 "骑士团",
                 "圣域"
-            ]
-        },
-        {
-            "name": "快速日常",
-            "description": "只执行核心日常",
-            "task": [
-                "签到奖励",
-                "商店购买",
-                "竞技场"
             ]
         }
     ]

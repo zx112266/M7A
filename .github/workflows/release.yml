@@ -25,8 +25,8 @@ jobs:
       - name: 复制资源文件
         shell: pwsh
         run: |
-          Copy-Item interface.json ./package/
-          Copy-Item resource ./package/resource -Recurse -Force
+          Copy-Item assets/interface.json ./package/
+          Copy-Item assets/resource ./package/resource -Recurse -Force
           Write-Host "资源文件复制完成"
 
       - name: 验证打包结果
@@ -35,16 +35,16 @@ jobs:
           Write-Host "=== 验证关键文件 ==="
           $checks = @(
             "./package/interface.json",
-            "./package/resource/base/pipeline/start.json",
-            "./package/resource/base/pipeline/shop.json",
-            "./package/resource/base/pipeline/arena.json",
-            "./package/resource/base/pipeline/labyrinth.json",
-            "./package/resource/base/pipeline/hunt.json",
-            "./package/resource/base/pipeline/pet_house.json",
-            "./package/resource/base/pipeline/guide_reward.json",
-            "./package/resource/base/pipeline/guild.json",
-            "./package/resource/base/pipeline/sanctuary.json",
-            "./package/resource/base/pipeline/sign_reward.json"
+            "./package/resource/pipeline/start.json",
+            "./package/resource/pipeline/sign_reward.json",
+            "./package/resource/pipeline/shop.json",
+            "./package/resource/pipeline/labyrinth.json",
+            "./package/resource/pipeline/arena.json",
+            "./package/resource/pipeline/hunt.json",
+            "./package/resource/pipeline/pet_house.json",
+            "./package/resource/pipeline/guide_reward.json",
+            "./package/resource/pipeline/guild.json",
+            "./package/resource/pipeline/sanctuary.json"
           )
           foreach ($f in $checks) {
             if (!(Test-Path $f)) { throw "缺失文件: $f" }
@@ -66,7 +66,7 @@ jobs:
         with:
           name: M7A ${{ github.ref_name }}
           body: |
-            ## M7A 七骑士自动化 ${{ github.ref_name }}
+            ## M7A 第七史诗自动化 ${{ github.ref_name }}
             ### 使用方法
             1. 下载 `M7A-${{ github.ref_name }}-win-x64.zip`
             2. 解压到任意目录
